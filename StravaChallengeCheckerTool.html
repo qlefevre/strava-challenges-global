@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strava Challenge Checker</title>
+</head>
+
+<body>
+    <h1>Strava Challenge Checker</h1>
+    <button id="checkChallenges">Check Challenges</button>
+    <ul id="results"></ul>
+    <ul id="jsonResults"></ul>
+
+    <script>
+        async function findChallengeUrls(start = 4500, end = 4514) {
+            const proxyCorsUrl = 'https://corsproxy.io/?'
+            const baseUrl = 'https://www.strava.com/challenges/';
+            const validUrls = [];
+            const validJsonObjects = [];
+
+            for (let challengeId = start; challengeId <= end; challengeId++) {
+                const url = `${baseUrl}${challengeId}`;
+                const proxyUrl = `${proxyCorsUrl}` + encodeURIComponent(url);
+                console.log(proxyUrl);
+                try {
+                    const response = await fetch(proxyUrl);
+                    if (response.ok) {
+                        const text = await response.text();
+
+                        // Extraction de la chaîne JSON entre les guillemets simples
+                        let jsonString = text.match(/data-react-props='(.*)'/)[1];
+
+                        // Remplacement des entités HTML par leurs caractères correspondants
+                        let decodedString = jsonString.replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+
+                        // Analyse de la chaîne JSON en objet
+                        let jsonObject = JSON.parse(decodedString);
+
+                        console.log(jsonObject);
+                    
+                        let qualifyingActivities = jsonObject.sections.find(section => section.title === 'Détails et éligibilité')
+                                       .content.find(content => content.key === 'qualifyingActivities')
+                                       .qualifyingActivities;
+
+                        let runActivity = qualifyingActivities.find(activity => activity.activityType === 'Run');
+
+
+                        // on veut un challenge : challengeId présent
+                        // on ne veut pas du club : club.name not contains 'The Strava Club'
+                        // on veut un challenge avec un badge : contains 'challengeLogoUrl'
+                        // l'activité course doit être présente.
+
+                       if(jsonObject.challengeId 
+                            && !jsonObject.club.name.includes("The Strava Club")
+                            && runActivity){
+                        validUrls.push(url);
+                        validJsonObjects.push(jsonObject);
+                       }
+
+
+                    }
+                } catch (error) {
+                    console.error(`Error accessing ${url}: ${error}`);
+                }
+            }
+
+            return validJsonObjects;
+        }
+
+        document.getElementById('checkChallenges').addEventListener('click', async () => {
+            const resultElement = document.getElementById('results');
+            const jsonResultsElement = document.getElementById('jsonResults');
+            resultElement.innerHTML = 'Checking...';
+            const validJsonObjects = await findChallengeUrls();
+            resultElement.innerHTML = '';
+            if (validJsonObjects.length === 0) {
+                resultElement.innerHTML = '<li>No valid challenge URLs found.</li>';
+            } else {
+                const baseUrl = 'https://www.strava.com/challenges/';
+                
+                validJsonObjects.forEach(jsonObject => {
+                    const li = document.createElement('li');
+                    const img = document.createElement('img');
+                    img.src = jsonObject.header.challengeLogoUrl; // Définir l'URL de l'image
+                    img.alt = jsonObject.header.name; // Définir le texte alternatif de l'image
+                    img.height = 150;
+                    img.width = 150;
+                    const a = document.createElement('a');
+                    const url = `${baseUrl}${jsonObject.challengeId}`;
+                    a.href = url;
+                    a.textContent = jsonObject.header.name;
+                    a.target = "_blank"; // Optionnel : ouvre le lien dans un nouvel onglet
+                    a.appendChild(img);
+                    li.appendChild(a);
+                    resultElement.appendChild(li);
+                });
+
+                jsonResults.innerHTML = JSON.stringify(validJsonObjects);
+            }
+        });
+    </script>
+</body>
+
+</html>
