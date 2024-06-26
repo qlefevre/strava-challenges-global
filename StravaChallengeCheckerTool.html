@@ -11,6 +11,8 @@
     <h1>Strava Challenge Checker</h1>
     <button id="checkChallenges">Check Challenges</button>
     <ul id="results"></ul>
+
+    <button id="copyButton">Copy JSON</button>
     <ul id="jsonResults"></ul>
 
     <script>
@@ -100,6 +102,22 @@
                 jsonResults.innerHTML = JSON.stringify(validJsonObjects);
             }
         });
+
+
+        document.getElementById('copyButton').addEventListener('click', function() {
+            // Sélectionner l'élément contenant le JSON
+            const jsonResults = document.getElementById('jsonResults');
+
+            // Utiliser l'API du presse-papiers pour copier le contenu
+            navigator.clipboard.writeText(jsonResults.innerText)
+        .then(() => {
+            // Optionnel : afficher un message pour indiquer que le contenu a été copié
+            alert('Le contenu JSON a été copié dans le presse-papiers.');
+        })
+        .catch(err => {
+            console.error('Erreur lors de la copie du texte : ', err);
+        });
+});
     </script>
 </body>
 
