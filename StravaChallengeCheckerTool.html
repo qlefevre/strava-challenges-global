@@ -54,6 +54,12 @@ function transformJson(inputJson) {
     });
 }
 
+function transformJsonOneObjectPerLine(inputJsonText) {
+    // Utilisation de la méthode replace pour ajouter un retour à la ligne avant chaque occurrence de {"challengeId"
+    const transformedText = inputJsonText.replace(/{\"challengeId\"/g, '\r\n{\"challengeId\"');
+    return transformedText;
+}
+
 
         async function findChallengeUrls(start = 4510, end = 4514) {
             const proxyCorsUrl = 'https://corsproxy.io/?'
@@ -148,7 +154,7 @@ function transformJson(inputJson) {
             const jsonResults = document.getElementById('jsonResults');
 
             // Utiliser l'API du presse-papiers pour copier le contenu
-            navigator.clipboard.writeText(jsonResults.innerText)
+            navigator.clipboard.writeText(transformJsonOneObjectPerLine(jsonResults.innerText))
         .then(() => {
             // Optionnel : afficher un message pour indiquer que le contenu a été copié
             alert('Le contenu JSON a été copié dans le presse-papiers.');
