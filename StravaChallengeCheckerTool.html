@@ -16,7 +16,46 @@
     <ul id="jsonResults"></ul>
 
     <script>
-        async function findChallengeUrls(start = 4500, end = 4514) {
+
+function transformJson(inputJson) {
+    return inputJson.map(item => {
+        // Extracting the necessary properties
+        const {
+            challengeId,
+            header: { coverImageUrl, challengeLogoUrl, name, subtitle },
+            club: { id: clubId, name: clubName },
+            sections
+        } = item;
+
+        // Extracting qualifying activities
+        const qualifyingActivitiesSection = sections.find(section => 
+            section.content.some(content => content.key === "qualifyingActivities")
+        );
+        
+        let qualifyingActivities = [];
+        if (qualifyingActivitiesSection) {
+            const qualifyingActivitiesContent = qualifyingActivitiesSection.content.find(content => content.key === "qualifyingActivities");
+            if (qualifyingActivitiesContent) {
+                qualifyingActivities = qualifyingActivitiesContent.qualifyingActivities.map(activity => activity.activityType);
+            }
+        }
+
+        // Constructing the transformed object
+        return {
+            challengeId,
+            coverImageUrl,
+            challengeLogoUrl,
+            name,
+            subtitle,
+            clubId,
+            clubName,
+            qualifyingActivities
+        };
+    });
+}
+
+
+        async function findChallengeUrls(start = 4510, end = 4514) {
             const proxyCorsUrl = 'https://corsproxy.io/?'
             const baseUrl = 'https://www.strava.com/challenges/';
             const validUrls = [];
@@ -75,24 +114,24 @@
             const resultElement = document.getElementById('results');
             const jsonResultsElement = document.getElementById('jsonResults');
             resultElement.innerHTML = 'Checking...';
-            const validJsonObjects = await findChallengeUrls();
+             validJsonObjects = await findChallengeUrls();
             resultElement.innerHTML = '';
             if (validJsonObjects.length === 0) {
                 resultElement.innerHTML = '<li>No valid challenge URLs found.</li>';
             } else {
                 const baseUrl = 'https://www.strava.com/challenges/';
-                
+                validJsonObjects = transformJson(validJsonObjects);
                 validJsonObjects.forEach(jsonObject => {
                     const li = document.createElement('li');
                     const img = document.createElement('img');
-                    img.src = jsonObject.header.challengeLogoUrl; // Définir l'URL de l'image
-                    img.alt = jsonObject.header.name; // Définir le texte alternatif de l'image
+                    img.src = jsonObject.challengeLogoUrl; // Définir l'URL de l'image
+                    img.alt = jsonObject.name; // Définir le texte alternatif de l'image
                     img.height = 150;
                     img.width = 150;
                     const a = document.createElement('a');
                     const url = `${baseUrl}${jsonObject.challengeId}`;
                     a.href = url;
-                    a.textContent = jsonObject.header.name;
+                    a.textContent = jsonObject.name;
                     a.target = "_blank"; // Optionnel : ouvre le lien dans un nouvel onglet
                     a.appendChild(img);
                     li.appendChild(a);
