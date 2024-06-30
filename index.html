@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Étiquettes pour tableau électrique</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
+	<link rel="icon" type="image/png" href="img/wrench-adjustable-circle.png" />
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<style>
+
+		.text-orange{
+			color: orangered;
+		}
+
+		.btn {
+			border-radius: 0px;
+		}
+
+	
+		.tableau-electrique {
+			font-family: Roboto;
+		}
+
+		.font-8 {
+			font-size: 8pt;
+		}
+
+		table {
+			border-collapse: collapse;
+			margin-top: 20px;
+			text-align: center;
+			vertical-align: middle;
+			font-size: 9pt
+		}
+
+		
+		
+
+		.data,
+		.editor {
+			margin-top: 30px;
+			text-align: left;
+		}
+
+		@page {
+			size: A4 landscape;
+		}
+
+		@media print {
+			td.selected {
+				border-width: 0px;
+			}
+		}
+		
+	
+
+		.electric-panel {
+			background-size: cover;
+			background-position: center;
+		}
+
+		.old-electric-panel {
+			background-image: url('img/Vieux-tableau-électrique-sans-étiquettes.jpg');
+		}
+
+		.new-electric-panel {
+			background-image: url('img/Tableau-électrique-avec-étiquettes.jpg');
+		}
+
+		.slogan {
+			padding-top: 350px;
+			padding-bottom: 75px;
+		}
+
+		.carousel-slogan {
+			background-color: white;
+			color: black;
+			right: 0%;
+			left: 0%;
+			padding-top: 0.3rem;
+			padding-bottom: 0.1rem;
+			opacity: 0.92;
+		}
+
+		.fs-5p {
+			font-size: 1.15rem !important;
+		}
+
+		.action-add:hover {
+			background-color: var(--bs-success)
+		}
+
+		.action-remove:hover {
+			background-color: var(--bs-danger)
+		}
+
+		.permalink {
+			width: 73%;
+			border-radius: 0px;
+		}
+
+		footer .logo {
+			width: 5%;
+			margin-right: 10px;
+			filter: opacity(0.6);
+		}
+
+		/*Pour mobile*/
+		@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+
+			.container,
+			.container-md {
+				max-width: none;
+			}
+		}
+
+		/*forcer l'impression de la couleur pour la localisation*/
+		@media print {
+    		* {
+        		-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
+    		}
+		}
+	</style>
+
+
+</head>
+
+<body id="app">
+
+		<header class="d-flex flex-wrap justify-content-center pt-3 pb-1 border-bottom">
+			<a href="https://qlefevre.github.io/etiquettes-tableau-electrique/"
+				class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+				<i class="bi bi-wrench-adjustable-circle fs-1 me-2"></i>
+				<span class="fs-4">Étiquettes pour tableau électrique</span>
+			</a>
+
+			<ul class="nav nav-pills mt-3">
+				<li class="nav-item">
+					<a href="#presentation" class="nav-link text-decoration-none text-reset">Présentation</a>
+				</li>
+				<li class="nav-item">
+					<a href="#etiquettes" class="nav-link text-decoration-none text-reset">Étiquettes</a>
+				</li>
+				<li class="nav-item">
+					<a href="#modeles" class="nav-link text-decoration-none text-reset">Modèles</a>
+				</li>
+				<li class="nav-item">
+					<a href="#mes-motivations" class="nav-link text-decoration-none text-reset">Mes motivations</a>
+				</li>
+			</ul>
+		</header>
+
+		<div class="row justify-content-center">
+			<article id="presentation" class="col-10">
+
+				<div id="carouselTableaux" class="carousel slide text-center" data-bs-ride="carousel"
+					data-bs-pause="false" data-bs-interval="2000">
+					<div class="carousel-inner">
+						<div class="carousel-item active electric-panel old-electric-panel" data-bs-interval="2500">
+							<div class="slogan"></div>
+							<div class="carousel-caption d-none d-md-block carousel-slogan w-100">
+								<h3 class="display-6 fw-light">Votre tableau</h3>
+								<p class="lead">Créer des étiquettes pour votre tableau
+									électrique.</p>
+							</div>
+						</div>
+						<div class="carousel-item electric-panel new-electric-panel" data-bs-interval="5000">
+							<div class="slogan"></div>
+							<div class="carousel-caption d-none d-md-block carousel-slogan w-100">
+								<h3 class="display-6 fw-light">Votre <strong class="px-3">nouveau</strong> tableau</h3>
+								<p class="lead">Créer des étiquettes pour votre tableau
+									électrique.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 mx-auto pt-5">
+					<h1 class="display-6 py-3">Mode d'emploi</h1>
+				</div>
+				<div class="col-9 mx-auto pb-5 pt-2">
+					<ol class="fs-5 display-6">
+						<li>Je choisis mon tableau.</li>
+						<li>Je choisis ma taille d'étiquette : ancien format 5 cm / nouveau format 3 cm de hauteur.</li>
+						<li>Je configure la taille et le nombre de modules par rangée.</li>
+						<li>J'ajoute tous les modules.</li>
+						<li>Je sauvegarde mon travail via le lien permanent.</li>
+						<li>J'imprime la page (Ctrl+P).</li>
+					</ol>
+				</div>
+
+			</article>
+
+
+			<article id="challenges" class="col-10">
+				<span class="border-bottom fs-2 display-6 text-orange">Challenges</span>
+				<div class="text-center">
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6" >
+						<div class="col" v-for="challenge in challenges">
+							<a :href="'https://www.strava.com/challenges/'+challenge.challengeId" target="_blank">
+								<img :src="challenge.challengeLogoUrl" class="img-fluid px-5 pb-3 pt-5"/>
+							</a>
+							<a :href="'https://www.strava.com/challenges/'+challenge.challengeId"
+								class="link-dark link-underline link-underline-opacity-25 link-opacity-50-hover"
+								target="_blank">
+								{{challenge.name}}
+							</a>
+						</div>
+					</div>
+				</div>
+			</article>
+
+		</div>
+
+	
+
+
+
+		<footer class="d-flex flex-wrap justify-content-between align-items-center py-0 mt-5 mb-3 border-top d-print-none">
+
+			<div class="col-md-8 d-flex align-items-center">
+				<i class="bi bi-wrench-adjustable-circle fs-1 me-2"></i>
+				<span class="mb-3 mb-md-0 text-muted">
+					2023 <a class="text-decoration-none text-reset"
+						href="https://qlefevre.github.io/etiquettes-tableau-electrique/">Étiquettes pour tableau
+						électrique</a>. Icônes fournies ou
+					inspirées de <a class="text-decoration-none text-reset"
+						href="https://icons8.com/icon/set/household/ios">icons8.com</a>.
+			</div>
+
+			<ul class="nav col-md-4 justify-content-end">
+				<li class="nav-item">
+					<a href="#presentation" class="nav-link px-2 text-muted">Présentation</a>
+				</li>
+				<li class="nav-item">
+					<a href="#etiquettes" class="nav-link px-2 text-muted">Étiquettes</a>
+				</li>
+				<li class="nav-item">
+					<a href="#modeles" class="nav-link px-2 text-muted">Modèles</a>
+				</li>
+				<li class="nav-item">
+					<a href="#mes-motivations" class="nav-link px-2 text-muted">Mes motivations</a>
+				</li>
+
+			</ul>
+		</footer>
+	</div>
+
+
+
+	<script>
+		const { createApp } = Vue;
+
+		createApp({
+			data() {
+				return {
+					challenges: 
+[
+{"challengeId":4500,"coverImageUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4500/4500-cover.png","challengeLogoUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4500/4500-logo.png","name":"SunGod Golden Hour Challenge","subtitle":"60 minutes d'activité au soleil pour bénéficier de 20 % de réduction sur SunGod.co","clubId":617591,"clubName":"SunGod","qualifyingActivities":["Rowing","Canoeing","Run","Crossfit","Elliptical","Workout","WeightTraining","RockClimbing","Wheelchair","Soccer","Golf","Handcycle","Kayaking","Kitesurf","Walk","Swim","IceSkate","Hike","Snowshoe","InlineSkate","StairStepper","Skateboard","AlpineSki","BackcountrySki","NordicSki","RollerSki","Snowboard","StandUpPaddling","Surfing","Sail","Ride","EBikeRide","Velomobile","Windsurf","Yoga"]},
+{"challengeId":4501,"coverImageUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4501/4501-cover.png","challengeLogoUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4501/4501-logo.png","name":"Škoda Draw de France","subtitle":"Put your Strava art to the test and join Škoda Draw de France","clubId":518563,"clubName":"Skoda UK","qualifyingActivities":["Run","Wheelchair","Handcycle","Walk","Hike","Ride","EBikeRide","Velomobile"]},
+{"challengeId":4507,"coverImageUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4507/4507-cover.png","challengeLogoUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4507/4507-logo.png","name":"Tredz Tour Challenge 2024","subtitle":"Complete 120 minutes of exercise for your chance to WIN & grab 10% off","clubId":14523,"clubName":"Tredz Bikes","qualifyingActivities":["Rowing","Canoeing","Run","VirtualRun","Crossfit","Elliptical","Workout","WeightTraining","RockClimbing","Wheelchair","Soccer","Golf","Handcycle","Kayaking","Kitesurf","Walk","Swim","IceSkate","Hike","Snowshoe","InlineSkate","StairStepper","Skateboard","AlpineSki","BackcountrySki","NordicSki","RollerSki","Snowboard","StandUpPaddling","Surfing","Sail","Ride","VirtualRide","EBikeRide","Velomobile","Windsurf","Yoga"]},
+{"challengeId":4508,"coverImageUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4508/4508-cover.png","challengeLogoUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4508/4508-logo.png","name":"Tour de Pact | 111 minutes","subtitle":"Complete 111 minutes of activity to win rewards!","clubId":663367,"clubName":"Pact Coffee Club","qualifyingActivities":["Rowing","Canoeing","Run","VirtualRun","Crossfit","Elliptical","Workout","WeightTraining","RockClimbing","Wheelchair","Soccer","Golf","Handcycle","Kayaking","Kitesurf","Walk","Swim","IceSkate","Hike","Snowshoe","InlineSkate","StairStepper","Skateboard","AlpineSki","BackcountrySki","NordicSki","RollerSki","Snowboard","StandUpPaddling","Surfing","Sail","Ride","VirtualRide","EBikeRide","Velomobile","Windsurf","Yoga"]},
+{"challengeId":4510,"coverImageUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4395/4395-cover.png","challengeLogoUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4395/4395-logo.png","name":"Get Sponsored By The Feed","subtitle":"Get $60 annual Feed Sponsorship to spend on nutrition to fuel your training","clubId":280372,"clubName":"The Feed","qualifyingActivities":["Rowing","Canoeing","Run","VirtualRun","Crossfit","Elliptical","Workout","WeightTraining","RockClimbing","Wheelchair","Soccer","Golf","Handcycle","Kayaking","Kitesurf","Walk","Swim","IceSkate","Hike","Snowshoe","InlineSkate","StairStepper","Skateboard","AlpineSki","BackcountrySki","NordicSki","RollerSki","Snowboard","StandUpPaddling","Surfing","Sail","Ride","VirtualRide","EBikeRide","Velomobile","Windsurf","Yoga"]},
+{"challengeId":4511,"coverImageUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4511/4511-cover.png","challengeLogoUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4511/4511-logo.png","name":"Le Col Tour Challenge","subtitle":"57 € de récompense Le Col contre 200 minutes d'activité","clubId":88156,"clubName":"Le Col","qualifyingActivities":["Rowing","Canoeing","Run","VirtualRun","Crossfit","Elliptical","Workout","WeightTraining","RockClimbing","Wheelchair","Soccer","Golf","Handcycle","Kayaking","Kitesurf","Walk","Swim","IceSkate","Hike","Snowshoe","InlineSkate","StairStepper","Skateboard","AlpineSki","BackcountrySki","NordicSki","RollerSki","Snowboard","StandUpPaddling","Surfing","Sail","Ride","VirtualRide","EBikeRide","Velomobile","Windsurf","Yoga"]},
+{"challengeId":4514,"coverImageUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4514/4514-cover.png","challengeLogoUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4514/4514-logo.png","name":"REI Co-op Opt Outside","subtitle":"Join the REI Co-op Opt Outside Active Days Challenge","clubId":122521,"clubName":"REI","qualifyingActivities":["Rowing","Canoeing","Run","Crossfit","Workout","WeightTraining","RockClimbing","Wheelchair","Soccer","Golf","Handcycle","Kayaking","Kitesurf","Walk","Swim","IceSkate","Hike","Snowshoe","InlineSkate","Skateboard","AlpineSki","BackcountrySki","NordicSki","RollerSki","Snowboard","StandUpPaddling","Surfing","Sail","Ride","EBikeRide","Velomobile","Windsurf","Yoga"]}
+]
+				}
+			},
+			computed: {
+				icons: function () {
+					return [...new Set(Object.values(this.applications))];
+				},
+				selectedModule: function () {
+					console.log('select ' + this.rangeeIndex);
+					console.log('module ' + this.moduleIndex);
+					return this.rangees[this.rangeeIndex].modules[this.moduleIndex];
+				}
+
+			},
+			methods: {
+				srcImg: function (module) {
+					return module.img ? 'img/' + module.img + '.png' : '';
+				},
+				css: function (module, rgIdx = -1, modIdx = -1) {
+					let css = 'mod-' + (module.mod ? module.mod : '1');
+					css += (rgIdx == this.rangeeIndex && modIdx == this.moduleIndex) ? ' selected' : '';
+					return css;
+				},
+				cssModuleColor: function (module, rgIdx = -1, modIdx = -1) {
+					let css = this.css(module,rgIdx,modIdx);
+					css +=' emplacement-' + (module.col ? module.col : 'default');
+					return css;
+				},
+				loc: function (module) {
+					if (!module.loc) return '';
+					return module.loc.replaceAll('\n', '<br>')
+				},
+				changeIcon: function (module) {
+					if (this.isModuleSelected(module)) {
+						let index = this.icons.indexOf(module.img)
+						module.img = this.icons[(index + 1) % this.icons.length];
+					}
+				},
+				changeApplication: function (module) {
+					if (this.isModuleSelected(module)) {
+						let appKeys = Object.keys(this.applications);
+						let index = appKeys.indexOf(module.app);
+						module.app = appKeys[(index + 1) % appKeys.length];
+						module.img = this.applications[module.app];
+					}
+				},
+				selectModule: function (idxRg, idxMod) {
+					this.rangeeIndex = idxRg;
+					this.moduleIndex = idxMod;
+				},
+				isModuleSelected: function (module) {
+					return this.rangees[this.rangeeIndex].modules[this.moduleIndex] == module;
+				},
+
+				editModule: function (event, type) {
+					val = event.target.value;
+					let module = this.rangees[this.rangeeIndex].modules[this.moduleIndex];
+					if (type == 'application') {
+						module.app = val;
+						module.img = this.applications[val];
+					} else if (type == 'applicationonly') {
+						module.app = val;
+					} else if (type == 'location') {
+						module.loc = val;
+					} else if (type == 'size') {
+						module.mod = val;
+					} else if( type == 'color'){
+						module.col = val;
+					}
+				},
+				addRow: function () {
+					let rangee = { modules: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}] }
+					this.rangees.push(rangee);
+				},
+				removeRow: function () {
+					this.rangees.pop();
+				},
+				checkRowSize(row) {
+					let rowSize = row.length;
+					for (module of row) {
+						if (module.mod != undefined && module.mod > 1) {
+							rowSize += module.mod - 1;
+						}
+					}
+					let missingMod = this.taille - rowSize;
+					if (missingMod > 0) {
+						while (missingMod > 0) {
+							row.push({});
+							missingMod--;
+						}
+					}
+
+				},
+				fixRowSize() {
+					console.log('test');
+					let row = this.rangees[this.rangeeIndex].modules;
+					let rowSize = row.length;
+					for (module of row) {
+						if (module.mod != undefined && module.mod > 1) {
+							rowSize += module.mod - 1;
+						}
+					}
+					let missingMod = this.taille - rowSize;
+					if (missingMod > 0) {
+						while (missingMod > 0) {
+							row.push({});
+							missingMod--;
+						}
+					}
+					if (missingMod < 0) {
+						while (missingMod < 0) {
+							row.pop();
+							missingMod++;
+						}
+					}
+				},
+				copyPermalink: function () {
+					console.log('-- json');
+					console.log(this.toData(true));
+					console.log('-- small');
+					console.log(this.toData());
+					navigator.clipboard.writeText(this.toPermaLink());
+				},
+				toPermaLink: function () {
+					return window.location.origin + window.location.pathname + '?json&format='+this.format+'&data=' + this.toData(true);
+				},
+				toData: function (json) {
+					// On travaille sur une copie
+					let data = JSON.parse(JSON.stringify(this.rangees));
+					// On supprime les associations img/app non modifiées
+					for (rangee of data) {
+						for (module of rangee.modules) {
+							// suppression doublon
+							if (this.applications[module.app] == module.img) {
+								delete module.img;
+							}
+							// suppression couleur
+							if (module.col == ""){
+								delete module.col;
+							}
+							// passage à un caractère
+							module.a = module.app;
+							module.i = module.img;
+							module.l = module.loc;
+							module.m = module.mod;
+							module.c = module.col;
+							delete module.app;
+							delete module.img;
+							delete module.loc;
+							delete module.mod;
+							delete module.col;
+						}
+					}
+					data = JSON.stringify(data);
+					// suppression des modules vides
+					data = data.replaceAll(',{}', '');
+					if (!json) {
+						data = data.replaceAll('{', '(').replaceAll('}', ')');
+						data = data.replaceAll('":"', '~').replaceAll('","', '_');
+						data = data.replaceAll(',', '').replaceAll('"', '');
+						data = data.replaceAll('(modules:[', 'rg-').replaceAll('])', '');
+						data = data.replace('[', '').replace(']', '').replaceAll(':', '~');
+					}
+
+					// Encode les données
+					data = encodeURIComponent(data);
+
+					return data;
+				},
+				addImageAndCheckSize(rangees) {
+					// Ajout des images manquantes
+					for (rangee of rangees) {
+						for (module of rangee.modules) {
+							// ajout de l'image
+							if (!module.img) {
+								module.img = this.applications[module.app];
+							}
+							// passage du mod 
+							if (module.mod) {
+								module.mod = Number(module.mod);
+							}
+						}
+						// vérifie la taille de cette rangee
+						this.checkRowSize(rangee.modules);
+					}
+				},
+				fromData: function (data, json = false) {
+					if(!json){
+						// Suppression reencodage
+						data = data.replaceAll('rg-', '(modules":[');
+						data = data.replaceAll('~', '":"').replaceAll('_', '","');
+						data = data.replaceAll('(', '{"').replaceAll(')', '"}');
+						data = data.replaceAll('{""}', '{}');
+						data = data.replaceAll('}{', '},{');
+						data = data.replaceAll('},{"modules"', '}]},{"modules"')
+						data = '[' + data + ']}]';
+					}
+					data = data.replaceAll('"a"', '"app"').replaceAll('"i"', '"img"');
+					data = data.replaceAll('"l"', '"loc"').replaceAll('"m"', '"mod"');
+					data = data.replaceAll('"c"', '"col"')
+
+					console.log(data);
+					json = JSON.parse(data);
+
+					// Add images and check rows
+					this.addImageAndCheckSize(json);
+
+					return json;
+				}
+			},
+			mounted() {
+
+				const urlParams = new URLSearchParams(window.location.search);
+				let data = urlParams.get('data');
+				let json = urlParams.has('json');
+				let format = urlParams.get('format');
+				if(format){
+					this.format = format;
+				}
+				if (data) {
+					data = decodeURI(data);
+
+					console.log(data);
+
+					while (this.rangees.length > 0) {
+						this.rangees.pop();
+					}
+
+					this.rangees = this.fromData(data,json);
+				} else {
+					this.addImageAndCheckSize(this.rangees);
+				}
+
+			}
+		}).mount('#app');
+
+	</script>
+
+
+</body>
+
+</html>
