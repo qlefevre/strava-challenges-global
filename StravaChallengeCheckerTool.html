@@ -17,51 +17,51 @@
 
     <script>
 
-function transformJson(inputJson) {
-    return inputJson.map(item => {
-        // Extracting the necessary properties
-        const {
-            challengeId,
-            header: { coverImageUrl, challengeLogoUrl, name, subtitle },
-            club: { id: clubId, name: clubName },
-            sections
-        } = item;
+        function transformJson(inputJson) {
+            return inputJson.map(item => {
+                // Extracting the necessary properties
+                const {
+                    challengeId,
+                    header: { coverImageUrl, challengeLogoUrl, name, subtitle },
+                    club: { id: clubId, name: clubName },
+                    sections
+                } = item;
 
-        // Extracting qualifying activities
-        const qualifyingActivitiesSection = sections.find(section => 
-            section.content.some(content => content.key === "qualifyingActivities")
-        );
-        
-        let qualifyingActivities = [];
-        if (qualifyingActivitiesSection) {
-            const qualifyingActivitiesContent = qualifyingActivitiesSection.content.find(content => content.key === "qualifyingActivities");
-            if (qualifyingActivitiesContent) {
-                qualifyingActivities = qualifyingActivitiesContent.qualifyingActivities.map(activity => activity.activityType);
-            }
+                // Extracting qualifying activities
+                const qualifyingActivitiesSection = sections.find(section =>
+                    section.content.some(content => content.key === "qualifyingActivities")
+                );
+
+                let qualifyingActivities = [];
+                if (qualifyingActivitiesSection) {
+                    const qualifyingActivitiesContent = qualifyingActivitiesSection.content.find(content => content.key === "qualifyingActivities");
+                    if (qualifyingActivitiesContent) {
+                        qualifyingActivities = qualifyingActivitiesContent.qualifyingActivities.map(activity => activity.activityType);
+                    }
+                }
+
+                // Constructing the transformed object
+                return {
+                    challengeId,
+                    coverImageUrl,
+                    challengeLogoUrl,
+                    name,
+                    subtitle,
+                    clubId,
+                    clubName,
+                    qualifyingActivities
+                };
+            });
         }
 
-        // Constructing the transformed object
-        return {
-            challengeId,
-            coverImageUrl,
-            challengeLogoUrl,
-            name,
-            subtitle,
-            clubId,
-            clubName,
-            qualifyingActivities
-        };
-    });
-}
-
-function transformJsonOneObjectPerLine(inputJsonText) {
-    const challengesArray = JSON.parse(inputJsonText)
-    const challengesJson = challengesArray.map(obj => JSON.stringify(obj)).join(',\r\n');
-    return `[\r\n${challengesJson}\r\n]`;
-}
+        function transformJsonOneObjectPerLine(inputJsonText) {
+            const challengesArray = JSON.parse(inputJsonText)
+            const challengesJson = challengesArray.map(obj => JSON.stringify(obj)).join(',\r\n');
+            return `[\r\n${challengesJson}\r\n]`;
+        }
 
 
-        async function findChallengeUrls(start = 4000, end = 4520) {
+        async function findChallengeUrls(start = 4512, end = 4514) {
             const proxyCorsUrl = 'https://corsproxy.io/?'
             const baseUrl = 'https://www.strava.com/challenges/';
             const validUrls = [];
@@ -72,12 +72,15 @@ function transformJsonOneObjectPerLine(inputJsonText) {
                 const proxyUrl = `${proxyCorsUrl}` + encodeURIComponent(url);
                 console.log(proxyUrl);
                 try {
-                    const response = await fetch(proxyUrl);
+                    const response = await fetch(proxyUrl,{headers: {
+                        'Accept-Language': 'en',
+                }});
                     if (response.ok) {
                         const text = await response.text();
 
                         // Extraction de la chaîne JSON entre les guillemets simples
                         let jsonString = text.match(/data-react-props='(.*)'/)[1];
+                        console.log(jsonString);
 
                         // Remplacement des entités HTML par leurs caractères correspondants
                         let decodedString = jsonString.replace(/&quot;/g, '"').replace(/&#39;/g, "'");
@@ -86,10 +89,10 @@ function transformJsonOneObjectPerLine(inputJsonText) {
                         let jsonObject = JSON.parse(decodedString);
 
                         console.log(jsonObject);
-                    
+
                         let qualifyingActivities = jsonObject.sections.find(section => section.title === 'Détails et éligibilité')
-                                       .content.find(content => content.key === 'qualifyingActivities')
-                                       .qualifyingActivities;
+                            .content.find(content => content.key === 'qualifyingActivities')
+                            .qualifyingActivities;
 
                         let runActivity = qualifyingActivities.find(activity => activity.activityType === 'Run');
 
@@ -99,12 +102,12 @@ function transformJsonOneObjectPerLine(inputJsonText) {
                         // on veut un challenge avec un badge : contains 'challengeLogoUrl'
                         // l'activité course doit être présente.
 
-                       if(jsonObject.challengeId 
+                        if (jsonObject.challengeId
                             && !jsonObject.club.name.includes("The Strava Club")
-                            && runActivity){
-                        validUrls.push(url);
-                        validJsonObjects.push(jsonObject);
-                       }
+                            && runActivity) {
+                            validUrls.push(url);
+                            validJsonObjects.push(jsonObject);
+                        }
 
 
                     }
@@ -120,7 +123,7 @@ function transformJsonOneObjectPerLine(inputJsonText) {
             const resultElement = document.getElementById('results');
             const jsonResultsElement = document.getElementById('jsonResults');
             resultElement.innerHTML = 'Checking...';
-             validJsonObjects = await findChallengeUrls();
+            validJsonObjects = await findChallengeUrls();
             resultElement.innerHTML = '';
             if (validJsonObjects.length === 0) {
                 resultElement.innerHTML = '<li>No valid challenge URLs found.</li>';
@@ -149,20 +152,20 @@ function transformJsonOneObjectPerLine(inputJsonText) {
         });
 
 
-        document.getElementById('copyButton').addEventListener('click', function() {
+        document.getElementById('copyButton').addEventListener('click', function () {
             // Sélectionner l'élément contenant le JSON
             const jsonResults = document.getElementById('jsonResults');
 
             // Utiliser l'API du presse-papiers pour copier le contenu
             navigator.clipboard.writeText(transformJsonOneObjectPerLine(jsonResults.innerText))
-        .then(() => {
-            // Optionnel : afficher un message pour indiquer que le contenu a été copié
-            alert('Le contenu JSON a été copié dans le presse-papiers.');
-        })
-        .catch(err => {
-            console.error('Erreur lors de la copie du texte : ', err);
+                .then(() => {
+                    // Optionnel : afficher un message pour indiquer que le contenu a été copié
+                    alert('Le contenu JSON a été copié dans le presse-papiers.');
+                })
+                .catch(err => {
+                    console.error('Erreur lors de la copie du texte : ', err);
+                });
         });
-});
     </script>
 </body>
 

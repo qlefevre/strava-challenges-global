@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Étiquettes pour tableau électrique</title>
+	<title>Strava New Challenge Finder</title>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
@@ -20,57 +20,19 @@
 		.btn {
 			border-radius: 0px;
 		}
-
-	
-		.tableau-electrique {
-			font-family: Roboto;
+		.btn-orange:hover, .btn-orange.active{
+			color:white;
+			background-color: orangered;
+		}
+		.btn-orange{
+			color:orangered;
+			border-color: orangered;
 		}
 
 		.font-8 {
 			font-size: 8pt;
 		}
 
-		table {
-			border-collapse: collapse;
-			margin-top: 20px;
-			text-align: center;
-			vertical-align: middle;
-			font-size: 9pt
-		}
-
-		
-		
-
-		.data,
-		.editor {
-			margin-top: 30px;
-			text-align: left;
-		}
-
-		@page {
-			size: A4 landscape;
-		}
-
-		@media print {
-			td.selected {
-				border-width: 0px;
-			}
-		}
-		
-	
-
-		.electric-panel {
-			background-size: cover;
-			background-position: center;
-		}
-
-		.old-electric-panel {
-			background-image: url('img/Vieux-tableau-électrique-sans-étiquettes.jpg');
-		}
-
-		.new-electric-panel {
-			background-image: url('img/Tableau-électrique-avec-étiquettes.jpg');
-		}
 
 		.slogan {
 			padding-top: 350px;
@@ -87,22 +49,7 @@
 			opacity: 0.92;
 		}
 
-		.fs-5p {
-			font-size: 1.15rem !important;
-		}
 
-		.action-add:hover {
-			background-color: var(--bs-success)
-		}
-
-		.action-remove:hover {
-			background-color: var(--bs-danger)
-		}
-
-		.permalink {
-			width: 73%;
-			border-radius: 0px;
-		}
 
 		footer .logo {
 			width: 5%;
@@ -110,22 +57,7 @@
 			filter: opacity(0.6);
 		}
 
-		/*Pour mobile*/
-		@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-
-			.container,
-			.container-md {
-				max-width: none;
-			}
-		}
-
-		/*forcer l'impression de la couleur pour la localisation*/
-		@media print {
-    		* {
-        		-webkit-print-color-adjust: exact;
-				print-color-adjust: exact;
-    		}
-		}
+		
 	</style>
 
 
@@ -156,8 +88,8 @@
 			</ul>
 		</header>
 
-		<div class="row justify-content-center">
-			<article id="presentation" class="col-10">
+
+		<article id="presentation" class="col-10">
 
 				<div id="carouselTableaux" class="carousel slide text-center" data-bs-ride="carousel"
 					data-bs-pause="false" data-bs-interval="2000">
@@ -180,30 +112,19 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-12 mx-auto pt-5">
-					<h1 class="display-6 py-3">Mode d'emploi</h1>
-				</div>
-				<div class="col-9 mx-auto pb-5 pt-2">
-					<ol class="fs-5 display-6">
-						<li>Je choisis mon tableau.</li>
-						<li>Je choisis ma taille d'étiquette : ancien format 5 cm / nouveau format 3 cm de hauteur.</li>
-						<li>Je configure la taille et le nombre de modules par rangée.</li>
-						<li>J'ajoute tous les modules.</li>
-						<li>Je sauvegarde mon travail via le lien permanent.</li>
-						<li>J'imprime la page (Ctrl+P).</li>
-					</ol>
-				</div>
-
 			</article>
 
-
 			<article id="challenges" class="col-10">
-				<span class="border-bottom fs-2 display-6 text-orange">Challenges</span>
+				<span class="border-bottom fs-2 display-6 text-orange">Challenges ({{filteredChallenges.length}})</span>
+				<div class="mt-2">
+					<span class="text-orange me-1">Filtres activés: </span>
+					<a :class="'btn btn-orange btn-sm me-1 my-1'+cssActive(activity)" @click="toggle(activity)" role="button" v-for="activity in activities">{{activity}}</a>
+				</div>
 				<div class="text-center">
 					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6" >
-						<div class="col" v-for="challenge in challenges">
+						<div class="col" v-for="challenge in filteredChallenges">
 							<a :href="'https://www.strava.com/challenges/'+challenge.challengeId" target="_blank">
-								<img :src="challenge.challengeLogoUrl" class="img-fluid px-5 pb-3 pt-5"/>
+								<img :src="challenge.challengeLogoUrl" class="img-fluid px-5 pb-3 pt-4"/>
 							</a>
 							<a :href="'https://www.strava.com/challenges/'+challenge.challengeId"
 								class="link-dark link-underline link-underline-opacity-25 link-opacity-50-hover"
@@ -214,11 +135,6 @@
 					</div>
 				</div>
 			</article>
-
-		</div>
-
-	
-
 
 
 		<footer class="d-flex flex-wrap justify-content-between align-items-center py-0 mt-5 mb-3 border-top d-print-none">
@@ -259,20 +175,28 @@
 		createApp({
 			data() {
 				return {
-					challenges: []
+					challenges: [],
+					activities: ["Run","VirtualRun","Walk","Hike"],
+					activeFilters: ["Run"]
 				}
 			},
 			computed: {
 				icons: function () {
 					return [...new Set(Object.values(this.applications))];
 				},
+				filteredChallenges: function(){
+					return this.challenges.filter(challenge => challenge.qualifyingActivities.some(qual => this.activeFilters.includes(qual)));
+				}
 			},
 			methods: {
-				cssModuleColor: function (module, rgIdx = -1, modIdx = -1) {
-					let css = this.css(module,rgIdx,modIdx);
-					css +=' emplacement-' + (module.col ? module.col : 'default');
-					return css;
-				}
+				cssActive: function (activity){
+					return this.activeFilters.includes(activity)?' active':'';
+				},
+				toggle: function (activity){
+					return this.activeFilters.includes(activity)?
+					this.activeFilters = this.activeFilters.filter(aFilter => aFilter !== activity) : this.activeFilters.push(activity) ;
+				},
+				
 			},
 			mounted() {
 
@@ -280,23 +204,7 @@
 				let data = urlParams.get('data');
 				let json = urlParams.has('json');
 				let format = urlParams.get('format');
-				/*if(format){
-					this.format = format;
-				}
-				if (data) {
-					data = decodeURI(data);
-
-					console.log(data);
-
-					while (this.rangees.length > 0) {
-						this.rangees.pop();
-					}
-
-					this.rangees = this.fromData(data,json);
-				} else {
-					this.addImageAndCheckSize(this.rangees);
-				}*/
-
+			
 				const url = "challenges.json";
 				fetch(url)
 				.then(response => {
