@@ -259,223 +259,19 @@
 		createApp({
 			data() {
 				return {
-					challenges: 
-[
-{"challengeId":4500,"coverImageUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4500/4500-cover.png","challengeLogoUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4500/4500-logo.png","name":"SunGod Golden Hour Challenge","subtitle":"60 minutes d'activité au soleil pour bénéficier de 20 % de réduction sur SunGod.co","clubId":617591,"clubName":"SunGod","qualifyingActivities":["Rowing","Canoeing","Run","Crossfit","Elliptical","Workout","WeightTraining","RockClimbing","Wheelchair","Soccer","Golf","Handcycle","Kayaking","Kitesurf","Walk","Swim","IceSkate","Hike","Snowshoe","InlineSkate","StairStepper","Skateboard","AlpineSki","BackcountrySki","NordicSki","RollerSki","Snowboard","StandUpPaddling","Surfing","Sail","Ride","EBikeRide","Velomobile","Windsurf","Yoga"]},
-{"challengeId":4501,"coverImageUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4501/4501-cover.png","challengeLogoUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4501/4501-logo.png","name":"Škoda Draw de France","subtitle":"Put your Strava art to the test and join Škoda Draw de France","clubId":518563,"clubName":"Skoda UK","qualifyingActivities":["Run","Wheelchair","Handcycle","Walk","Hike","Ride","EBikeRide","Velomobile"]},
-{"challengeId":4507,"coverImageUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4507/4507-cover.png","challengeLogoUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4507/4507-logo.png","name":"Tredz Tour Challenge 2024","subtitle":"Complete 120 minutes of exercise for your chance to WIN & grab 10% off","clubId":14523,"clubName":"Tredz Bikes","qualifyingActivities":["Rowing","Canoeing","Run","VirtualRun","Crossfit","Elliptical","Workout","WeightTraining","RockClimbing","Wheelchair","Soccer","Golf","Handcycle","Kayaking","Kitesurf","Walk","Swim","IceSkate","Hike","Snowshoe","InlineSkate","StairStepper","Skateboard","AlpineSki","BackcountrySki","NordicSki","RollerSki","Snowboard","StandUpPaddling","Surfing","Sail","Ride","VirtualRide","EBikeRide","Velomobile","Windsurf","Yoga"]},
-{"challengeId":4508,"coverImageUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4508/4508-cover.png","challengeLogoUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4508/4508-logo.png","name":"Tour de Pact | 111 minutes","subtitle":"Complete 111 minutes of activity to win rewards!","clubId":663367,"clubName":"Pact Coffee Club","qualifyingActivities":["Rowing","Canoeing","Run","VirtualRun","Crossfit","Elliptical","Workout","WeightTraining","RockClimbing","Wheelchair","Soccer","Golf","Handcycle","Kayaking","Kitesurf","Walk","Swim","IceSkate","Hike","Snowshoe","InlineSkate","StairStepper","Skateboard","AlpineSki","BackcountrySki","NordicSki","RollerSki","Snowboard","StandUpPaddling","Surfing","Sail","Ride","VirtualRide","EBikeRide","Velomobile","Windsurf","Yoga"]},
-{"challengeId":4510,"coverImageUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4395/4395-cover.png","challengeLogoUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4395/4395-logo.png","name":"Get Sponsored By The Feed","subtitle":"Get $60 annual Feed Sponsorship to spend on nutrition to fuel your training","clubId":280372,"clubName":"The Feed","qualifyingActivities":["Rowing","Canoeing","Run","VirtualRun","Crossfit","Elliptical","Workout","WeightTraining","RockClimbing","Wheelchair","Soccer","Golf","Handcycle","Kayaking","Kitesurf","Walk","Swim","IceSkate","Hike","Snowshoe","InlineSkate","StairStepper","Skateboard","AlpineSki","BackcountrySki","NordicSki","RollerSki","Snowboard","StandUpPaddling","Surfing","Sail","Ride","VirtualRide","EBikeRide","Velomobile","Windsurf","Yoga"]},
-{"challengeId":4511,"coverImageUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4511/4511-cover.png","challengeLogoUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4511/4511-logo.png","name":"Le Col Tour Challenge","subtitle":"57 € de récompense Le Col contre 200 minutes d'activité","clubId":88156,"clubName":"Le Col","qualifyingActivities":["Rowing","Canoeing","Run","VirtualRun","Crossfit","Elliptical","Workout","WeightTraining","RockClimbing","Wheelchair","Soccer","Golf","Handcycle","Kayaking","Kitesurf","Walk","Swim","IceSkate","Hike","Snowshoe","InlineSkate","StairStepper","Skateboard","AlpineSki","BackcountrySki","NordicSki","RollerSki","Snowboard","StandUpPaddling","Surfing","Sail","Ride","VirtualRide","EBikeRide","Velomobile","Windsurf","Yoga"]},
-{"challengeId":4514,"coverImageUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4514/4514-cover.png","challengeLogoUrl":"https://dgalywyr863hv.cloudfront.net/challenges/4514/4514-logo.png","name":"REI Co-op Opt Outside","subtitle":"Join the REI Co-op Opt Outside Active Days Challenge","clubId":122521,"clubName":"REI","qualifyingActivities":["Rowing","Canoeing","Run","Crossfit","Workout","WeightTraining","RockClimbing","Wheelchair","Soccer","Golf","Handcycle","Kayaking","Kitesurf","Walk","Swim","IceSkate","Hike","Snowshoe","InlineSkate","Skateboard","AlpineSki","BackcountrySki","NordicSki","RollerSki","Snowboard","StandUpPaddling","Surfing","Sail","Ride","EBikeRide","Velomobile","Windsurf","Yoga"]}
-]
+					challenges: []
 				}
 			},
 			computed: {
 				icons: function () {
 					return [...new Set(Object.values(this.applications))];
 				},
-				selectedModule: function () {
-					console.log('select ' + this.rangeeIndex);
-					console.log('module ' + this.moduleIndex);
-					return this.rangees[this.rangeeIndex].modules[this.moduleIndex];
-				}
-
 			},
 			methods: {
-				srcImg: function (module) {
-					return module.img ? 'img/' + module.img + '.png' : '';
-				},
-				css: function (module, rgIdx = -1, modIdx = -1) {
-					let css = 'mod-' + (module.mod ? module.mod : '1');
-					css += (rgIdx == this.rangeeIndex && modIdx == this.moduleIndex) ? ' selected' : '';
-					return css;
-				},
 				cssModuleColor: function (module, rgIdx = -1, modIdx = -1) {
 					let css = this.css(module,rgIdx,modIdx);
 					css +=' emplacement-' + (module.col ? module.col : 'default');
 					return css;
-				},
-				loc: function (module) {
-					if (!module.loc) return '';
-					return module.loc.replaceAll('\n', '<br>')
-				},
-				changeIcon: function (module) {
-					if (this.isModuleSelected(module)) {
-						let index = this.icons.indexOf(module.img)
-						module.img = this.icons[(index + 1) % this.icons.length];
-					}
-				},
-				changeApplication: function (module) {
-					if (this.isModuleSelected(module)) {
-						let appKeys = Object.keys(this.applications);
-						let index = appKeys.indexOf(module.app);
-						module.app = appKeys[(index + 1) % appKeys.length];
-						module.img = this.applications[module.app];
-					}
-				},
-				selectModule: function (idxRg, idxMod) {
-					this.rangeeIndex = idxRg;
-					this.moduleIndex = idxMod;
-				},
-				isModuleSelected: function (module) {
-					return this.rangees[this.rangeeIndex].modules[this.moduleIndex] == module;
-				},
-
-				editModule: function (event, type) {
-					val = event.target.value;
-					let module = this.rangees[this.rangeeIndex].modules[this.moduleIndex];
-					if (type == 'application') {
-						module.app = val;
-						module.img = this.applications[val];
-					} else if (type == 'applicationonly') {
-						module.app = val;
-					} else if (type == 'location') {
-						module.loc = val;
-					} else if (type == 'size') {
-						module.mod = val;
-					} else if( type == 'color'){
-						module.col = val;
-					}
-				},
-				addRow: function () {
-					let rangee = { modules: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}] }
-					this.rangees.push(rangee);
-				},
-				removeRow: function () {
-					this.rangees.pop();
-				},
-				checkRowSize(row) {
-					let rowSize = row.length;
-					for (module of row) {
-						if (module.mod != undefined && module.mod > 1) {
-							rowSize += module.mod - 1;
-						}
-					}
-					let missingMod = this.taille - rowSize;
-					if (missingMod > 0) {
-						while (missingMod > 0) {
-							row.push({});
-							missingMod--;
-						}
-					}
-
-				},
-				fixRowSize() {
-					console.log('test');
-					let row = this.rangees[this.rangeeIndex].modules;
-					let rowSize = row.length;
-					for (module of row) {
-						if (module.mod != undefined && module.mod > 1) {
-							rowSize += module.mod - 1;
-						}
-					}
-					let missingMod = this.taille - rowSize;
-					if (missingMod > 0) {
-						while (missingMod > 0) {
-							row.push({});
-							missingMod--;
-						}
-					}
-					if (missingMod < 0) {
-						while (missingMod < 0) {
-							row.pop();
-							missingMod++;
-						}
-					}
-				},
-				copyPermalink: function () {
-					console.log('-- json');
-					console.log(this.toData(true));
-					console.log('-- small');
-					console.log(this.toData());
-					navigator.clipboard.writeText(this.toPermaLink());
-				},
-				toPermaLink: function () {
-					return window.location.origin + window.location.pathname + '?json&format='+this.format+'&data=' + this.toData(true);
-				},
-				toData: function (json) {
-					// On travaille sur une copie
-					let data = JSON.parse(JSON.stringify(this.rangees));
-					// On supprime les associations img/app non modifiées
-					for (rangee of data) {
-						for (module of rangee.modules) {
-							// suppression doublon
-							if (this.applications[module.app] == module.img) {
-								delete module.img;
-							}
-							// suppression couleur
-							if (module.col == ""){
-								delete module.col;
-							}
-							// passage à un caractère
-							module.a = module.app;
-							module.i = module.img;
-							module.l = module.loc;
-							module.m = module.mod;
-							module.c = module.col;
-							delete module.app;
-							delete module.img;
-							delete module.loc;
-							delete module.mod;
-							delete module.col;
-						}
-					}
-					data = JSON.stringify(data);
-					// suppression des modules vides
-					data = data.replaceAll(',{}', '');
-					if (!json) {
-						data = data.replaceAll('{', '(').replaceAll('}', ')');
-						data = data.replaceAll('":"', '~').replaceAll('","', '_');
-						data = data.replaceAll(',', '').replaceAll('"', '');
-						data = data.replaceAll('(modules:[', 'rg-').replaceAll('])', '');
-						data = data.replace('[', '').replace(']', '').replaceAll(':', '~');
-					}
-
-					// Encode les données
-					data = encodeURIComponent(data);
-
-					return data;
-				},
-				addImageAndCheckSize(rangees) {
-					// Ajout des images manquantes
-					for (rangee of rangees) {
-						for (module of rangee.modules) {
-							// ajout de l'image
-							if (!module.img) {
-								module.img = this.applications[module.app];
-							}
-							// passage du mod 
-							if (module.mod) {
-								module.mod = Number(module.mod);
-							}
-						}
-						// vérifie la taille de cette rangee
-						this.checkRowSize(rangee.modules);
-					}
-				},
-				fromData: function (data, json = false) {
-					if(!json){
-						// Suppression reencodage
-						data = data.replaceAll('rg-', '(modules":[');
-						data = data.replaceAll('~', '":"').replaceAll('_', '","');
-						data = data.replaceAll('(', '{"').replaceAll(')', '"}');
-						data = data.replaceAll('{""}', '{}');
-						data = data.replaceAll('}{', '},{');
-						data = data.replaceAll('},{"modules"', '}]},{"modules"')
-						data = '[' + data + ']}]';
-					}
-					data = data.replaceAll('"a"', '"app"').replaceAll('"i"', '"img"');
-					data = data.replaceAll('"l"', '"loc"').replaceAll('"m"', '"mod"');
-					data = data.replaceAll('"c"', '"col"')
-
-					console.log(data);
-					json = JSON.parse(data);
-
-					// Add images and check rows
-					this.addImageAndCheckSize(json);
-
-					return json;
 				}
 			},
 			mounted() {
@@ -484,7 +280,7 @@
 				let data = urlParams.get('data');
 				let json = urlParams.has('json');
 				let format = urlParams.get('format');
-				if(format){
+				/*if(format){
 					this.format = format;
 				}
 				if (data) {
@@ -499,8 +295,22 @@
 					this.rangees = this.fromData(data,json);
 				} else {
 					this.addImageAndCheckSize(this.rangees);
-				}
+				}*/
 
+				const url = "challenges.json";
+				fetch(url)
+				.then(response => {
+					if (!response.ok) {
+					throw new Error('Network response was not ok ' + response.statusText);
+					}
+					return response.json();
+				})
+				.then(data => {
+					this.challenges = data.reverse();
+				})
+				.catch(error => {
+					console.error('Il y a eu un problème avec votre requête fetch:', error);
+				});
 			}
 		}).mount('#app');
 
