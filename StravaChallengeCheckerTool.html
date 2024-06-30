@@ -55,9 +55,9 @@ function transformJson(inputJson) {
 }
 
 function transformJsonOneObjectPerLine(inputJsonText) {
-    // Utilisation de la méthode replace pour ajouter un retour à la ligne avant chaque occurrence de {"challengeId"
-    const transformedText = inputJsonText.replace(/{\"challengeId\"/g, '\r\n{\"challengeId\"');
-    return transformedText;
+    const challengesArray = JSON.parse(inputJsonText)
+    const challengesJson = challengesArray.map(obj => JSON.stringify(obj)).join(',\r\n');
+    return `[\r\n${challengesJson}\r\n]`;
 }
 
 
