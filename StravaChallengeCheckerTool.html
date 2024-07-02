@@ -68,7 +68,7 @@
             const validJsonObjects = [];
 
             for (let challengeId = start; challengeId <= end; challengeId++) {
-                const url = `${baseUrl}${challengeId}`;
+                const url = `${baseUrl}${challengeId}?t=20240702`;
                 const proxyUrl = `${proxyCorsUrl}` + encodeURIComponent(url);
                 console.log(proxyUrl);
                 try {
