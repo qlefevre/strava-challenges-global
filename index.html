@@ -10,18 +10,18 @@
 	<link rel="icon" type="image/png" href="img/wrench-adjustable-circle.png" />
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@3.4.31/dist/vue.global.min.js"></script>
 	<style>
 		.text-orange, a:hover {
-			color: orangered !important;
+			color: orangered;
 		}
 
 		.btn {
 			border-radius: 0px;
 		}
 
-		.btn-orange:hover,
-		.btn-orange.active {
+		a.btn-orange.btn:hover,
+		.btn-orange.btn.active {
 			color: white;
 			background-color: orangered;
 		}
@@ -36,6 +36,10 @@
 			margin-right: 10px;
 			filter: opacity(0.6);
 		}
+
+		.text-justify{
+			text-align: justify;
+		}
 	</style>
 
 
@@ -46,22 +50,16 @@
 	<header class="d-flex flex-wrap justify-content-center pt-3 pb-1 border-bottom text-orange">
 		<a href="https://qlefevre.github.io/etiquettes-tableau-electrique/"
 			class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-orange text-decoration-none ps-5">
-			<i class="bi bi-wrench-adjustable-circle fs-1 me-2"></i>
+			<i class="bi bi-strava fs-1 me-2"></i>
 			<span class="fs-4">Strava Challenges List</span>
 		</a>
 
 		<ul class="nav nav-pills mt-3 pe-5">
 			<li class="nav-item">
-				<a href="#presentation" class="nav-link text-decoration-none text-reset">Présentation</a>
+				<a href="?activities=Run-VirtualRun" class="nav-link text-orange">Running challenges</a>
 			</li>
 			<li class="nav-item">
-				<a href="#etiquettes" class="nav-link text-decoration-none text-reset">Étiquettes</a>
-			</li>
-			<li class="nav-item">
-				<a href="#modeles" class="nav-link text-decoration-none text-reset">Modèles</a>
-			</li>
-			<li class="nav-item">
-				<a href="#mes-motivations" class="nav-link text-decoration-none text-reset">Mes motivations</a>
+				<a href="?activities=Ride-VirtualRide" class="nav-link text-orange">Cycling challenges</a>
 			</li>
 		</ul>
 	</header>
@@ -70,12 +68,14 @@
 
 
 	<article id="challenges" class="col-10 mx-auto">
-		<span class="fs-2 display-6 text-orange">Challenges <span class="fs-5">({{filteredChallenges.length}})</span></span>
-		<div class="mt-2">
-			<span class="text-orange me-1">Filtres activés: </span>
+		
+		<div class="my-4">
+			<span class="text-orange me-1">Filtered activities: </span>
 			<a :class="'btn btn-orange btn-sm me-1 my-1'+cssActive(activity)" @click="toggle(activity)" role="button"
 				v-for="activity in activities">{{activity}}</a>
 		</div>
+		<div class="fs-2 display-6 text-orange my-3">Challenges <span class="fs-5">({{filteredChallenges.length}})</span></div>
+	
 		<div class="text-center">
 			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6">
 				<div class="col" v-for="challenge in filteredChallenges">
@@ -93,32 +93,48 @@
 	</article>
 
 
-	<footer class="d-flex flex-wrap justify-content-between align-items-center py-0 mt-5 mb-3 border-top d-print-none text-orange">
-
-		<div class="col-md-8 d-flex align-items-center ps-5">
-			<i class="bi bi-wrench-adjustable-circle fs-1 me-2"></i>
-			<span class="mb-3 mb-md-0 text-muted">
-				2024 <a class="text-decoration-none text-reset text-orange"
-					href="https://qlefevre.github.io/etiquettes-tableau-electrique/">Strava Challenges List</a>. Icônes fournies ou
-				inspirées de <a class="text-decoration-none text-reset text-orange"
-					href="https://icons8.com/icon/set/household/ios">icons8.com</a>.
+	<footer
+		class="d-flex flex-wrap justify-content-between align-items-center py-0 mt-5 mb-3 border-top d-print-none text-orange">
+		<div class="row w-100">
+			<div class="col-md-8 d-flex align-items-center ps-5">
+				<i class="bi bi-strava fs-1 me-2"></i>
+				<p class="mb-3 mb-md-0  text-orange w-100">
+					2024 <a class="text-decoration-none text-orange"
+						href="https://qlefevre.github.io/etiquettes-tableau-electrique/">Strava Challenges List</a>.
+				</p>
+				
+	
+	
+			</div>
+	
+			<ul class="nav col-md-4 justify-content-end pe-5">
+				<li class="nav-item">
+					<a href="#presentation" class="nav-link px-2  text-orange">Présentation</a>
+				</li>
+				<li class="nav-item">
+					<a href="#etiquettes" class="nav-link px-2  text-orange">Étiquettes</a>
+				</li>
+				<li class="nav-item">
+					<a href="#modeles" class="nav-link px-2  text-orange">Modèles</a>
+				</li>
+				<li class="nav-item">
+					<a href="#mes-motivations" class="nav-link px-2  text-orange">Mes motivations</a>
+				</li>
+	
+			</ul>
+		</div>
+		<div class="row">
+			<div class="col-md-8 d-flex align-items-center ps-5">
+				<p class="fw-lighter text-secondary text-justify ps-5">This site is not affiliated with Strava.com in any way, shape, or form. The content
+					provided on this site is for informational purposes only and is not endorsed by, sponsored by, or
+					otherwise associated with Strava. All trademarks and service marks are the property of their respective
+					owners. The use of any trade name or trademark is for identification and reference purposes only and
+					does not imply any association with the trademark holder. The information on this site is provided "as
+					is" without any representations or warranties, express or implied. Users should independently verify any
+					information before relying on it.</p>
+			</div>
 		</div>
 
-		<ul class="nav col-md-4 justify-content-end pe-5">
-			<li class="nav-item">
-				<a href="#presentation" class="nav-link px-2 text-muted">Présentation</a>
-			</li>
-			<li class="nav-item">
-				<a href="#etiquettes" class="nav-link px-2 text-muted">Étiquettes</a>
-			</li>
-			<li class="nav-item">
-				<a href="#modeles" class="nav-link px-2 text-muted">Modèles</a>
-			</li>
-			<li class="nav-item">
-				<a href="#mes-motivations" class="nav-link px-2 text-muted">Mes motivations</a>
-			</li>
-
-		</ul>
 	</footer>
 	
 
@@ -131,8 +147,8 @@
 			data() {
 				return {
 					challenges: [],
-					activities: ["Run", "VirtualRun", "Walk", "Hike"],
-					activeFilters: ["Run"]
+					activities: ["Run", "VirtualRun", "Walk", "Hike","Ride","VirtualRide","EBikeRide"],
+					activeFilters: []
 				}
 			},
 			computed: {
@@ -140,6 +156,7 @@
 					return [...new Set(Object.values(this.applications))];
 				},
 				filteredChallenges: function () {
+					if (this.activeFilters.length === 0){return this.challenges;}
 					return this.challenges.filter(challenge => challenge.qualifyingActivities.some(qual => this.activeFilters.includes(qual)));
 				}
 			},
@@ -156,9 +173,13 @@
 			mounted() {
 
 				const urlParams = new URLSearchParams(window.location.search);
-				let data = urlParams.get('data');
-				let json = urlParams.has('json');
-				let format = urlParams.get('format');
+				let activitiesdata = urlParams.get('activities');
+
+				if(activitiesdata !== undefined){
+					values = activitiesdata.split('-').filter(activity => this.activities.includes(activity));
+					this.activeFilters = values;
+				}
+		
 
 				const url = "challenges.json";
 				fetch(url)
