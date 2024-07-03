@@ -68,12 +68,25 @@
 
 
 	<article id="challenges" class="col-10 mx-auto">
+
+			<div class="row">
+				<div class="text-orange me-1 mt-4">Filtered activities: </div>
+				<div class="col-11">
+					<div class="mt-4">
+						<a :class="'btn btn-orange btn-sm me-1 my-1'+cssActive(activity)" @click="toggle(activity)"
+							role="button" v-for="activity in highlightedActivities">{{activity}}</a>
+						<a :class="'btn btn-outline-secondary btn-sm me-1 my-1 '+(showMore?'btn secondary active':'')"
+							@click="toggleShowMore" role="button">{{showMore?'&ominus; Show Less':'&oplus; Show More'}}</a>
+					</div>
+					<div :class="'mb-4 '+(showMore?'':'d-none')">
+						<a :class="'btn btn-orange btn-sm me-1 my-1'+cssActive(activity)" @click="toggle(activity)"
+							role="button" v-for="activity in notHighlightedActivities">{{activity}}</a>
+					</div>
+				</div>
+			</div>
 		
-		<div class="my-4">
-			<span class="text-orange me-1">Filtered activities: </span>
-			<a :class="'btn btn-orange btn-sm me-1 my-1'+cssActive(activity)" @click="toggle(activity)" role="button"
-				v-for="activity in activities">{{activity}}</a>
-		</div>
+
+
 		<div class="fs-2 display-6 text-orange my-3">Challenges <span class="fs-5">({{filteredChallenges.length}})</span></div>
 	
 		<div class="text-center">
@@ -140,8 +153,10 @@
 			data() {
 				return {
 					challenges: [],
-					activities: ["Run", "VirtualRun", "Walk", "Hike","Ride","VirtualRide","EBikeRide"],
-					activeFilters: []
+					activities: ["Rowing","Canoeing","Run","VirtualRun","Crossfit","Elliptical","Workout","WeightTraining","RockClimbing","Wheelchair","Soccer","Golf","Handcycle","Kayaking","Kitesurf","Walk","Swim","IceSkate","Hike","Snowshoe","InlineSkate","StairStepper","Skateboard","AlpineSki","BackcountrySki","NordicSki","RollerSki","Snowboard","StandUpPaddling","Surfing","Sail","Ride","VirtualRide","EBikeRide","Velomobile","Windsurf","Yoga"],
+					highlightedActivities:  ["Run", "Ride", "Swim","Walk", "Hike"],
+					activeFilters: [],
+					showMore: false,
 				}
 			},
 			computed: {
@@ -151,6 +166,9 @@
 				filteredChallenges: function () {
 					if (this.activeFilters.length === 0){return this.challenges;}
 					return this.challenges.filter(challenge => challenge.qualifyingActivities.some(qual => this.activeFilters.includes(qual)));
+				},
+				notHighlightedActivities:  function () {
+					return this.activities.filter(activity => !this.highlightedActivities.includes(activity));
 				}
 			},
 			methods: {
@@ -160,6 +178,9 @@
 				toggle: function (activity) {
 					return this.activeFilters.includes(activity) ?
 						this.activeFilters = this.activeFilters.filter(aFilter => aFilter !== activity) : this.activeFilters.push(activity);
+				},
+				toggleShowMore: function () {
+					return this.showMore = !this.showMore;
 				},
 
 			},
