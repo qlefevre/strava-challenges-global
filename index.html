@@ -109,18 +109,11 @@
 	
 			<ul class="nav col-md-4 justify-content-end pe-5">
 				<li class="nav-item">
-					<a href="#presentation" class="nav-link px-2  text-orange">Présentation</a>
+					<a href="?activities=Run-VirtualRun" class="nav-link text-orange">Running challenges</a>
 				</li>
 				<li class="nav-item">
-					<a href="#etiquettes" class="nav-link px-2  text-orange">Étiquettes</a>
+					<a href="?activities=Ride-VirtualRide" class="nav-link text-orange">Cycling challenges</a>
 				</li>
-				<li class="nav-item">
-					<a href="#modeles" class="nav-link px-2  text-orange">Modèles</a>
-				</li>
-				<li class="nav-item">
-					<a href="#mes-motivations" class="nav-link px-2  text-orange">Mes motivations</a>
-				</li>
-	
 			</ul>
 		</div>
 		<div class="row">
@@ -175,7 +168,7 @@
 				const urlParams = new URLSearchParams(window.location.search);
 				let activitiesdata = urlParams.get('activities');
 
-				if(activitiesdata !== undefined){
+				if(activitiesdata){
 					values = activitiesdata.split('-').filter(activity => this.activities.includes(activity));
 					this.activeFilters = values;
 				}
