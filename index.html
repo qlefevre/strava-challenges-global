@@ -100,9 +100,14 @@
 						<img :src="challenge.challengeLogoUrl" class="img-fluid px-5 pb-3 pt-4" />
 					</a>
 					<a :href="'https://www.strava.com/challenges/'+challenge.challengeId"
-						class="link-dark link-underline link-underline-opacity-25 link-opacity-50-hover"
+						class="link-dark link-underline link-underline-opacity-10 link-opacity-50-hover"
 						target="_blank">
 						{{challenge.name}}
+					</a>
+					<br><a :href="'https://www.strava.com/challenges/'+challenge.challengeId"
+						class="link-dark link-opacity-50-hover text-decoration-none"
+						target="_blank">
+						<small>{{challenge.period}}</small>
 					</a>
 				</div>
 			</div>
@@ -195,6 +200,12 @@
 			},
 			mounted() {
 
+				// Fonction pour convertir les propriétés year, month, day en objet Date
+				function toDate(obj) {
+				return new Date(obj.year, obj.month - 1, obj.day);
+				}
+
+
 				const urlParams = new URLSearchParams(window.location.search);
 				let activitiesdata = urlParams.get('activities');
 
@@ -213,6 +224,10 @@
 						return response.json();
 					})
 					.then(data => {
+
+						// Tri du tableau en utilisant la fonction de comparaison
+						data.sort((a, b) => toDate(a) - toDate(b));
+
 						this.challenges = data.reverse();
 					})
 					.catch(error => {
