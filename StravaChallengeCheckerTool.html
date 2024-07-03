@@ -17,6 +17,22 @@
 
     <script>
 
+// Mapping des abréviations de mois à leurs numéros correspondants
+const monthMap = {
+        Jan: '01',
+        Feb: '02',
+        Mar: '03',
+        Apr: '04',
+        May: '05',
+        Jun: '06',
+        Jul: '07',
+        Aug: '08',
+        Sep: '09',
+        Oct: '10',
+        Nov: '11',
+        Dec: '12'
+    };
+
         function transformJson(inputJson) {
             return inputJson.map(item => {
                 // Extracting the necessary properties
@@ -24,6 +40,7 @@
                     challengeId,
                     header: { coverImageUrl, challengeLogoUrl, name, subtitle },
                     club: { id: clubId, name: clubName },
+                    summary: { calendar: {title : periodWithDaysLeft}}, 
                     sections
                 } = item;
 
@@ -40,6 +57,22 @@
                     }
                 }
 
+                // Period
+                let periodWithDaysLeft0 = periodWithDaysLeft;
+                if (periodWithDaysLeft0.includes('Ended')) {
+                    // Ended — Jan 1, 2024 to Jan 28, 2024
+                    let parts = periodWithDaysLeft0.split('—'); // Divise la chaîne en utilisant le tiret long comme séparateur
+                    periodWithDaysLeft0 = parts[1].trim();
+                }
+                let parts = periodWithDaysLeft0.split('—'); // Divise la chaîne en utilisant le tiret en tant que séparateur
+                let period = parts[0].trim(); // Prend la première partie et enlève les espaces blancs en début et fin
+                let yearMatch = periodWithDaysLeft0.match(/\b\d{4}\b/);
+                let year = yearMatch[0];
+                let monthMatch = periodWithDaysLeft0.match(/\b[A-Za-z]{3}\b/);
+                let month = monthMap[monthMatch[0]];
+                let dayMatch = periodWithDaysLeft0.match(/\b\d{1,2}\b/);
+                let day = dayMatch[0];
+
                 // Constructing the transformed object
                 return {
                     challengeId,
@@ -49,12 +82,17 @@
                     subtitle,
                     clubId,
                     clubName,
-                    qualifyingActivities
+                    qualifyingActivities,
+                    period,
+                    year,
+                    month,
+                    day
                 };
             });
         }
 
         function transformJsonOneObjectPerLine(inputJsonText) {
+            console.log(inputJsonText);
             const challengesArray = JSON.parse(inputJsonText)
             const challengesJson = challengesArray.map(obj => JSON.stringify(obj)).join(',\r\n');
             return `[\r\n${challengesJson}\r\n]`;
@@ -70,7 +108,7 @@
             }
 
 
-        async function findChallengeUrls(start = 4512, end = 4514) {
+        async function findChallengeUrls(start = 4500, end = 4514) {
             const proxyCorsUrl = 'https://corsproxy.io/?'
             const baseUrl = 'https://www.strava.com/challenges/';
             const validUrls = [];
@@ -99,21 +137,13 @@
 
                         console.log(jsonObject);
 
-                        let qualifyingActivities = jsonObject.sections.find(section => section.title === 'Détails et éligibilité')
-                            .content.find(content => content.key === 'qualifyingActivities')
-                            .qualifyingActivities;
-
-                        let runActivity = qualifyingActivities.find(activity => activity.activityType === 'Run');
-
-
                         // on veut un challenge : challengeId présent
                         // on ne veut pas du club : club.name not contains 'The Strava Club'
                         // on veut un challenge avec un badge : contains 'challengeLogoUrl'
                         // l'activité course doit être présente.
 
                         if (jsonObject.challengeId
-                            && !jsonObject.club.name.includes("The Strava Club")
-                            && runActivity) {
+                            && !jsonObject.club.name.includes("The Strava Club")) {
                             validUrls.push(url);
                             validJsonObjects.push(jsonObject);
                         }
