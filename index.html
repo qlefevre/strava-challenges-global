@@ -60,10 +60,13 @@
 
 		<ul class="nav nav-pills mt-3 pe-5">
 			<li class="nav-item">
-				<a href="?activities=Run-VirtualRun" class="nav-link text-orange">Running challenges</a>
+				<a href="?activities=Run" class="nav-link text-orange">Running challenges</a>
 			</li>
 			<li class="nav-item">
-				<a href="?activities=Ride-VirtualRide" class="nav-link text-orange">Cycling challenges</a>
+				<a href="?activities=Ride" class="nav-link text-orange">Cycling challenges</a>
+			</li>
+			<li class="nav-item">
+				<a href="?activities=Swim" class="nav-link text-orange">Swimming challenges</a>
 			</li>
 		</ul>
 	</header>
@@ -123,10 +126,13 @@
 	
 			<ul class="nav col-md-4 justify-content-end pe-5">
 				<li class="nav-item">
-					<a href="?activities=Run-VirtualRun" class="nav-link text-orange">Running challenges</a>
+					<a href="?activities=Run" class="nav-link text-orange">Running challenges</a>
 				</li>
 				<li class="nav-item">
-					<a href="?activities=Ride-VirtualRide" class="nav-link text-orange">Cycling challenges</a>
+					<a href="?activities=Ride" class="nav-link text-orange">Cycling challenges</a>
+				</li>
+				<li class="nav-item">
+					<a href="?activities=Swim" class="nav-link text-orange">Swimming challenges</a>
 				</li>
 			</ul>
 		</div>
@@ -165,7 +171,9 @@
 					return [...new Set(Object.values(this.applications))];
 				},
 				filteredChallenges: function () {
-					if (this.activeFilters.length === 0){return this.challenges;}
+					if (this.activeFilters.length === 0){
+						return this.challenges;
+					}
 					return this.challenges.filter(challenge => challenge.qualifyingActivities.some(qual => this.activeFilters.includes(qual)));
 				},
 				notHighlightedActivities:  function () {
