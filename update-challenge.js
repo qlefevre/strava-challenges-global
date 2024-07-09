@@ -18,10 +18,22 @@ const monthMap = {
 
 // Set custom headers to mimic a Chrome browser request
 const headers = {
-  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-  'Accept-Language': 'en-US,en;q=0.9',
-  'Connection': 'keep-alive'
+    'Host': 'corsproxy.io',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+    'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+    'Accept-Encoding': 'gzip, deflate, br, zstd',
+    'DNT': '1',
+    'Sec-GPC': '1',
+    'Connection': 'keep-alive',
+    'Cookie': 'cf_clearance=II.E60N50BHvpFFYtlcrPM_S1eG0Oiaa5obxoIFOMWg-1720528084-1.0.1.1-dCdp8T4qnFgWPDQJ2jupxAOcqLgbRxc14qG1YRvuWjHtPUV3RYms2GUJAjwtdKtL.So7mymyt_WI0dDqmL.kmA',
+    'Upgrade-Insecure-Requests': '1',
+    'Sec-Fetch-Dest': 'document',
+    'Sec-Fetch-Mode': 'navigate',
+    'Sec-Fetch-Site': 'none',
+    'Sec-Fetch-User': '?1',
+    'Priority': 'u=1',
+    'TE': 'trailers',
 };
 
 
@@ -90,21 +102,23 @@ function getParamCurrentDate() {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
 
-    return `&t=${year}${month}${day}`;
+    return `t=${year}${month}${day}`;
 }
 
 async function findChallengeUrls(start = 4521, end = 4530) {
     const proxyCorsUrl = 'https://corsproxy.io/?';
     const baseUrl = 'https://www.strava.com/challenges/';
     const validJsonObjects = [];
+    const paramDate = getParamCurrentDate();
 
     for (let challengeId = start; challengeId <= end; challengeId++) {
-        const url = `${baseUrl}${challengeId}?t=20240702`;
-        let proxyUrl = `${proxyCorsUrl}` + encodeURIComponent(url);
-		proxyUrl = `https://corsproxy.io/?google.fr`
+        const url = `${baseUrl}${challengeId}?${paramDate}`;
+        const proxyUrl = `${proxyCorsUrl}` + encodeURIComponent(url);
         console.log(proxyUrl);
         try {
-            const response = await axios.get(proxyUrl, { headers });
+            const response = await axios.get(proxyUrl, { 
+                headers:headers 
+            });
             if (response.status === 200) {
                 const text = response.data;
 
