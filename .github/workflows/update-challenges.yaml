@@ -1,0 +1,38 @@
+name: Daily Update Challenges
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  clone-and-merge:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source repository
+      uses: actions/checkout@v2
+      with:
+        repository: qlefevre/strava-challenge-checker
+        path: source-repo
+
+    - name: Checkout target repository
+      uses: actions/checkout@v2
+      with:
+        repository: your-username/target-repo
+        path: target-repo
+
+    - name: Copy file from source to target
+      run: |
+        cp source-repo/challenges.json target-repo/challenges.json
+
+    - name: Configure Git
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+    - name: Commit and push changes
+      run: |
+        cd target-repo
+        git add .
+        git commit -m "Update Challenge"
+        git push origin main
