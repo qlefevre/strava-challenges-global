@@ -21,7 +21,7 @@ const headers = {
     'Host': 'corsproxy.io',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-    'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+    'Accept-Language': 'en;q=0.8,en-US;q=0.5,en;q=0.3',
     'Accept-Encoding': 'gzip, deflate, br, zstd',
     'DNT': '1',
     'Sec-GPC': '1',
@@ -112,7 +112,7 @@ async function findChallengeUrls(start = 4521, end = 4530) {
     const paramDate = getParamCurrentDate();
 
     for (let challengeId = start; challengeId <= end; challengeId++) {
-        const url = `${baseUrl}${challengeId}?${paramDate}`;
+        const url = `${baseUrl}${challengeId}?${paramDate}1`;
         const proxyUrl = `${proxyCorsUrl}` + encodeURIComponent(url);
         console.log(proxyUrl);
         try {
@@ -140,21 +140,56 @@ async function findChallengeUrls(start = 4521, end = 4530) {
     return validJsonObjects;
 }
 
+async function getLastChallengeId(inputFile){
+    // Using promise chaining
+  const lastChallengeId = await fs
+  .readJson(inputFile)
+  .then((challenges) => {
+    return challenges[challenges.length-1].challengeId;
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+  console.log(`Last Challenge Id: ${lastChallengeId}`);
+  return lastChallengeId;
+}
+
+async function mergeChallenges(inputFile,newChallenges){
+    // Using promise chaining
+  const challenges = await fs
+  .readJson(inputFile)
+  .catch((error) => {
+    console.log(error);
+  });
+
+  return [...challenges,...newChallenges.slice(1)];
+}
+
 async function main() {
-    const startId = 4521;
-    const endId = 4530;
+    
+    const args = process.argv.slice(2);
+    const inputFile = args[0];
+    const outputFile = args[1];
+    
+    console.log(`Input file: ${inputFile}`);
+    console.log(`Output file: ${outputFile}`);
+    
+    const lastChallengeId = await getLastChallengeId(inputFile);
 
     console.log('Checking challenges...');
-    let validJsonObjects = await findChallengeUrls(startId, endId);
+    let validJsonObjects = await findChallengeUrls(lastChallengeId, lastChallengeId+10);
     if (validJsonObjects.length === 0) {
         console.log('No valid challenge URLs found.');
+    } else if (validJsonObjects.length === 1) {
+            console.log('No new challenge URLs found.');
     } else {
-        validJsonObjects = transformJson(validJsonObjects);
-        const jsonResults = JSON.stringify(validJsonObjects, null, 2);
-        console.log(jsonResults);
 
-        await fs.writeFile('challenges.json', jsonResults);
-        console.log('JSON data saved to challenges.json');
+        validJsonObjects = transformJson(validJsonObjects);
+        const jsonResults = JSON.stringify(await mergeChallenges(inputFile,validJsonObjects));
+        const prettyJsonChallenges = transformJsonOneObjectPerLine(jsonResults);
+
+        await fs.writeFile(outputFile, prettyJsonChallenges);
+        console.log(`JSON data saved to ${outputFile}`);
     }
 	console.log('Challenge update completed');
 }
