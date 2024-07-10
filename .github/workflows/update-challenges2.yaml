@@ -29,11 +29,6 @@ jobs:
         npm install axios fs-extra
         node update-challenge.js challenges.json ../target-repo/challenges.json
 
-    - name: Copy file from source to target
-      run: |
-        cd ..
-        cp source-repo/challenges.json target-repo/challenges.json
-
     - name: Configure Git
       run: |
         git config --global user.name 'github-actions[bot]'
