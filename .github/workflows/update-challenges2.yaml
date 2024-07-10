@@ -25,8 +25,9 @@ jobs:
 
     - name: Update challenges.json
       run: |
+        cd source-repo
         npm install axios fs-extra
-        node update-challenge.js source-repo/challenges.json target-repo/challenges.json
+        node update-challenge.js challenges.json ../target-repo/challenges.json
 
     - name: Copy file from source to target
       run: |
