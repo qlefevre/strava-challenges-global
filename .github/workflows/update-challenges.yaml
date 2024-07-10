@@ -18,8 +18,13 @@ jobs:
     - name: Checkout target repository
       uses: actions/checkout@v2
       with:
-        repository: your-username/target-repo
+        repository: qlefevre/strava-challenge-checker
         path: target-repo
+
+    - name: Update challenges.json
+      run: |
+        npm install axios fs-extra
+        node update-challenge.js source-repo/challenges.json target-repo/challenges.json
 
     - name: Copy file from source to target
       run: |
