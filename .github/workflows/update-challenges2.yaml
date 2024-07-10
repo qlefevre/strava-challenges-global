@@ -31,6 +31,7 @@ jobs:
 
     - name: Copy file from source to target
       run: |
+        cd ..
         cp source-repo/challenges.json target-repo/challenges.json
 
     - name: Configure Git
