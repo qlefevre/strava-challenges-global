@@ -6,6 +6,9 @@ name: Daily Update Challenges 2
 on:
   workflow_dispatch
 
+permissions:
+  contents: write
+
 jobs:
   update-challenges:
     runs-on: ubuntu-latest
