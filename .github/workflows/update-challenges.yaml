@@ -5,7 +5,7 @@ on:
     - cron: '0 6 * * *'
 
 jobs:
-  clone-and-merge:
+  update-challenges:
     runs-on: ubuntu-latest
 
     steps:
