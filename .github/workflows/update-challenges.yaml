@@ -1,4 +1,4 @@
-name: Daily Update Challenges 2
+name: Daily Update Challenges
 
 on:
   workflow_dispatch:
@@ -16,20 +16,20 @@ jobs:
     - name: Checkout source repository
       uses: actions/checkout@v2
       with:
-        repository: qlefevre/strava-challenge-checker
+        repository: qlefevre/strava-challenges-global
         path: source-repo
 
     - name: Checkout target repository
       uses: actions/checkout@v2
       with:
-        repository: qlefevre/strava-challenge-checker
+        repository: qlefevre/strava-challenges-global
         path: target-repo
 
     - name: Update challenges.json
       run: |
         cd source-repo
         npm install axios fs-extra
-        node update-challenge.js challenges.json ../target-repo/challenges.json
+        node ./update/update-challenge.js challenges.json ../target-repo/challenges.json
 
     - name: Configure Git
       run: |
