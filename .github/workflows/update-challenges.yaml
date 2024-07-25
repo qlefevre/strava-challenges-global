@@ -18,12 +18,14 @@ jobs:
       with:
         repository: qlefevre/strava-challenges-global
         path: source-repo
+        ref: ${{github.ref}}
 
     - name: Checkout target repository
       uses: actions/checkout@v4
       with:
         repository: qlefevre/strava-challenges-global
         path: target-repo
+        ref: ${{github.ref}}
 
     - name: Update challenges.json
       run: |
