@@ -14,13 +14,13 @@ jobs:
 
     steps:
     - name: Checkout source repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@main
       with:
         repository: qlefevre/strava-challenges-global
         path: source-repo
 
     - name: Checkout target repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@main
       with:
         repository: qlefevre/strava-challenges-global
         path: target-repo
