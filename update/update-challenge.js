@@ -18,22 +18,12 @@ const monthMap = {
 
 // Set custom headers to mimic a Chrome browser request
 const headers = {
-    'Host': 'corsproxy.io',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
     'Accept-Language': 'en;q=0.8,en-US;q=0.5,en;q=0.3',
     'Accept-Encoding': 'gzip, deflate, br, zstd',
-    'DNT': '1',
-    'Sec-GPC': '1',
     'Connection': 'keep-alive',
     'Cookie': 'cf_clearance=II.E60N50BHvpFFYtlcrPM_S1eG0Oiaa5obxoIFOMWg-1720528084-1.0.1.1-dCdp8T4qnFgWPDQJ2jupxAOcqLgbRxc14qG1YRvuWjHtPUV3RYms2GUJAjwtdKtL.So7mymyt_WI0dDqmL.kmA',
-    'Upgrade-Insecure-Requests': '1',
-    'Sec-Fetch-Dest': 'document',
-    'Sec-Fetch-Mode': 'navigate',
-    'Sec-Fetch-Site': 'none',
-    'Sec-Fetch-User': '?1',
-    'Priority': 'u=1',
-    'TE': 'trailers',
 };
 
 
@@ -105,18 +95,20 @@ function getParamCurrentDate() {
     return `t=${year}${month}${day}`;
 }
 
-async function findChallengeUrls(start = 4521, end = 4530) {
-    const proxyCorsUrl = 'https://corsproxy.io/?';
+async function findChallengeUrls(lastIds, endId) {
     const baseUrl = 'https://www.strava.com/challenges/';
     const validJsonObjects = [];
     const paramDate = getParamCurrentDate();
+    const challengeIdEnd = lastIds[lastIds.length-1] +endId;
 
-    for (let challengeId = start; challengeId <= end; challengeId++) {
-        const url = `${baseUrl}${challengeId}?${paramDate}1`;
-        const proxyUrl = `${proxyCorsUrl}` + encodeURIComponent(url);
-        console.log(proxyUrl);
+    for (let challengeId = lastIds[0]; challengeId <= challengeIdEnd; challengeId++) {
+        if(lastIds.includes(challengeId)){
+            continue;
+        }
+        const url = `${baseUrl}${challengeId}?${paramDate}`;;
+        console.log(url);
         try {
-            const response = await axios.get(proxyUrl, { 
+            const response = await axios.get(url, { 
                 headers:headers 
             });
             if (response.status === 200) {
@@ -140,18 +132,18 @@ async function findChallengeUrls(start = 4521, end = 4530) {
     return validJsonObjects;
 }
 
-async function getLastChallengeId(inputFile){
+async function getLastChallengeIds(inputFile, nElements){
     // Using promise chaining
-  const lastChallengeId = await fs
+  const lastChallengeIds = await fs
   .readJson(inputFile)
   .then((challenges) => {
-    return challenges[challenges.length-1].challengeId;
+    return challenges.slice(-nElements).map(n => n.challengeId);
   })
   .catch((error) => {
     console.log(error);
   });
-  console.log(`Last Challenge Id: ${lastChallengeId}`);
-  return lastChallengeId;
+  console.log(`Last Challenge Ids: ${lastChallengeIds}`);
+  return lastChallengeIds;
 }
 
 async function mergeChallenges(inputFile,newChallenges){
@@ -161,8 +153,9 @@ async function mergeChallenges(inputFile,newChallenges){
   .catch((error) => {
     console.log(error);
   });
-
-  return [...challenges,...newChallenges.slice(1)];
+  let mergedArray = [...challenges,...newChallenges.slice(1)];
+  mergedArray.sort((a, b) => a.challengeId - b.challengeId);
+  return mergedArray;
 }
 
 async function main() {
@@ -174,10 +167,11 @@ async function main() {
     console.log(`Input file: ${inputFile}`);
     console.log(`Output file: ${outputFile}`);
     
-    const lastChallengeId = await getLastChallengeId(inputFile);
+    const lastChallengeIds = await getLastChallengeIds(inputFile,7);
+   
 
     console.log('Checking challenges...');
-    let validJsonObjects = await findChallengeUrls(lastChallengeId, lastChallengeId+10);
+    let validJsonObjects = await findChallengeUrls(lastChallengeIds,10);
     if (validJsonObjects.length === 0) {
         console.log('No valid challenge URLs found.');
     } else if (validJsonObjects.length === 1) {
