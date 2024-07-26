@@ -31,7 +31,7 @@ jobs:
       run: |
         cd source-repo
         npm install axios fs-extra
-        node ./update/update-challenge.js challenges.json ../target-repo/challenges.json
+        node ./update/update-challenge.js challenges.json ../target-repo/challenges.json 7 10
 
     - name: Configure Git
       run: |

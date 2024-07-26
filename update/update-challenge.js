@@ -99,7 +99,8 @@ async function findChallengeUrls(lastIds, endId) {
     const baseUrl = 'https://www.strava.com/challenges/';
     const validJsonObjects = [];
     const paramDate = getParamCurrentDate();
-    const challengeIdEnd = lastIds[lastIds.length-1] +endId;
+    const challengeIdEnd = lastIds[lastIds.length-1] +Number(endId);
+    console.log(challengeIdEnd);
 
     for (let challengeId = lastIds[0]; challengeId <= challengeIdEnd; challengeId++) {
         if(lastIds.includes(challengeId)){
@@ -132,12 +133,19 @@ async function findChallengeUrls(lastIds, endId) {
     return validJsonObjects;
 }
 
-async function getLastChallengeIds(inputFile, nElements){
+/**
+ * Returns an array containing last nth challenge ids
+ *
+ * @param {*} challengesFile json file containing challenges 
+ * @param {*} lastNthIds last nth challenge ids
+ * @returns an array containing last nth challenge ids
+ */
+async function getLastChallengeIds(challengesFile, lastNthIds){
     // Using promise chaining
   const lastChallengeIds = await fs
-  .readJson(inputFile)
+  .readJson(challengesFile)
   .then((challenges) => {
-    return challenges.slice(-nElements).map(n => n.challengeId);
+    return challenges.slice(-lastNthIds).map(n => n.challengeId);
   })
   .catch((error) => {
     console.log(error);
@@ -163,15 +171,20 @@ async function main() {
     const args = process.argv.slice(2);
     const inputFile = args[0];
     const outputFile = args[1];
-    
+    const lastNthIds = args[2]
+    const upToNIds = args[3];
+
     console.log(`Input file: ${inputFile}`);
     console.log(`Output file: ${outputFile}`);
+    console.log(`Search from the last ${lastNthIds} challenge Ids.`);
+    console.log(`Search up to ${upToNIds} Ids from the last known Id.`);
+
     
-    const lastChallengeIds = await getLastChallengeIds(inputFile,7);
+    const lastChallengeIds = await getLastChallengeIds(inputFile,lastNthIds);
    
 
     console.log('Checking challenges...');
-    let validJsonObjects = await findChallengeUrls(lastChallengeIds,10);
+    let validJsonObjects = await findChallengeUrls(lastChallengeIds,upToNIds);
     if (validJsonObjects.length === 0) {
         console.log('No valid challenge URLs found.');
     } else if (validJsonObjects.length === 1) {
