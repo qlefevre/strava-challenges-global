@@ -36,17 +36,17 @@ jobs:
         npm install axios fs-extra
 
     - name: Update challenges.json 2 15
-        if: github.event.schedule == '0 6 * * 1,3,5'
-        run: node ./update/update-challenge.js challenges.json ../target-repo/challenges.json 5 15
+      if: github.event.schedule == '0 6 * * 1,3,5'
+      run: node ./update/update-challenge.js challenges.json ../target-repo/challenges.json 5 15
 
     - name: Update challenges.json 1 30
-        if: github.event.schedule == '0 6 25,28 * *'
-        run: node ./update/update-challenge.js challenges.json ../target-repo/challenges.json 1 30
+      if: github.event.schedule == '0 6 25,28 * *'
+      run: node ./update/update-challenge.js challenges.json ../target-repo/challenges.json 1 30
 
     - name: Update challenges.json 8 5
-        if: github.event.schedule != '0 6 25,28 * *' && github.event.schedule == '0 6 * * 1,3,5'
-        run: node ./update/update-challenge.js challenges.json ../target-repo/challenges.json 8 5
-        
+      if: github.event.schedule != '0 6 25,28 * *' && github.event.schedule == '0 6 * * 1,3,5'
+      run: node ./update/update-challenge.js challenges.json ../target-repo/challenges.json 8 5
+
     - name: Configure Git
       run: |
         git config --global user.name 'github-actions[bot]'
