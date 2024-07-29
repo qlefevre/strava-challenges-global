@@ -31,11 +31,23 @@ function transformJson(inputJson) {
     return inputJson.map(item => {
         const {
             challengeId,
-            header: { coverImageUrl, challengeLogoUrl, name, subtitle },
-            club: { id: clubId, name: clubName },
-            summary: { calendar: { title: periodWithDaysLeft } },
+            header,
+            club,
+            summary,
             sections
         } = item;
+
+	// Vérifiez si les objets header, club et summary existent avant de déstructurer leurs propriétés
+        const coverImageUrl = header?.coverImageUrl || '';
+        const challengeLogoUrl = header?.challengeLogoUrl || '';
+        const name = header?.name || 'Unknown Name';
+        const subtitle = header?.subtitle || 'Unknown Subtitle';
+
+        const clubId = club?.id || 'Unknown Club ID';
+        const clubName = club?.name || 'Unknown Club Name';
+
+        const periodWithDaysLeft = summary?.calendar?.title || 'Unknown Period';
+
 
         const qualifyingActivitiesSection = sections.find(section =>
             section.content.some(content => content.key === "qualifyingActivities")
