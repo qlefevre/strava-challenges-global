@@ -133,8 +133,8 @@ async function findChallengeUrls(lastIds, endId) {
                 let jsonObject = JSON.parse(decodedString);
 
                 if (jsonObject.challengeId
-		    && jsonObject.club.name != null
-                    && !jsonObject.club.name.includes("The Strava Club")) {
+		    && (jsonObject.club?.name && !jsonObject.club.name.includes("The Strava Club"))
+		   ) {
                     validJsonObjects.push(jsonObject);
                 }
             }
