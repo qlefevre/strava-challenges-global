@@ -35,7 +35,7 @@ jobs:
         cd source-repo
         npm install axios fs-extra
 
-    - name: Update challenges.json 2 15 - Search from the last 2 challenge IDs and up to 15 starting from the most recent known ID.
+    - name: Update challenges.json 5 15 - Search from the last 5 challenge IDs and up to 15 starting from the most recent known ID.
       if: github.event.schedule == '0 6 4-28/7 * *'
       run: node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 5 15
 
