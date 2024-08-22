@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 6 4-28/7 * *' # Scheduled to run at 6:00 AM on the 4th, 11th, 18th, and 25th of each month.
-    - cron: '0 6 3-28/7 * *' # Scheduled to run at 6:00 AM on the 3rd, 10th, 17th, and 24th of each month.
+    - cron: '0 6 5-28/7 * *' # Scheduled to run at 6:00 AM on the 5rd, 12th, 19th, and 26th of each month.
     - cron: '0 6 1,7,14,21,28 * *' # Scheduled to run at 6:00 AM on the 1st, 7th, 14th, 21st, and 28th of each month.
 
 
@@ -44,7 +44,7 @@ jobs:
       run: node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 1 30
 
     - name: Update challenges.json 8 5 - Search from the last 8 challenge IDs and up to 5 starting from the most recent known ID.
-      if: github.event.schedule == '0 6 3-28/7 * *'
+      if: github.event.schedule == '0 6 5-28/7 * *'
       run: node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 8 5
 
     - name: Update challenges.json 7 20 - Search from the last 7 challenge IDs and up to 20 starting from the most recent known ID.
