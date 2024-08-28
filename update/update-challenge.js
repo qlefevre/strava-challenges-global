@@ -174,7 +174,7 @@ async function mergeChallenges(inputFile,newChallenges){
   .catch((error) => {
     console.log(error);
   });
-  let mergedArray = [...challenges,...newChallenges.slice(1)];
+  let mergedArray = [...challenges,...newChallenges];
   mergedArray.sort((a, b) => a.challengeId - b.challengeId);
   return mergedArray;
 }
@@ -200,10 +200,8 @@ async function main() {
     let validJsonObjects = await findChallengeUrls(lastChallengeIds,upToNIds);
     if (validJsonObjects.length === 0) {
         console.log('No valid challenge URLs found.');
-    } else if (validJsonObjects.length === 1) {
-            console.log('No new challenge URLs found.');
     } else {
-
+        
         validJsonObjects = transformJson(validJsonObjects);
         const jsonResults = JSON.stringify(await mergeChallenges(inputFile,validJsonObjects));
         const prettyJsonChallenges = transformJsonOneObjectPerLine(jsonResults);
