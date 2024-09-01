@@ -26,6 +26,28 @@ const headers = {
     'Cookie': 'cf_clearance=II.E60N50BHvpFFYtlcrPM_S1eG0Oiaa5obxoIFOMWg-1720528084-1.0.1.1-dCdp8T4qnFgWPDQJ2jupxAOcqLgbRxc14qG1YRvuWjHtPUV3RYms2GUJAjwtdKtL.So7mymyt_WI0dDqmL.kmA',
 };
 
+// Fonction pour extraire les dates (comme défini précédemment)
+function extractDates(dateRange) {
+    const months = {
+        "Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6,
+        "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12
+    };
+
+    const [start, end] = dateRange.split(" to ");
+
+    function parseDate(dateStr) {
+        const [month, date, year] = dateStr.split(" ");
+        return `${parseInt(year)}-${months[month]}-${parseInt(date)}`;
+    }
+
+    const startDate = parseDate(start);
+    const endDate = parseDate(end);
+
+    return {
+        startDate,
+        endDate
+    };
+}
 
 function transformJson(inputJson) {
     return inputJson.map(item => {
@@ -68,12 +90,8 @@ function transformJson(inputJson) {
         }
         let parts = periodWithDaysLeft0.split('—');
         let period = parts[0].trim();
-        let yearMatch = periodWithDaysLeft0.match(/\b\d{4}\b/);
-        let year = yearMatch[0];
-        let monthMatch = periodWithDaysLeft0.match(/\b[A-Za-z]{3}\b/);
-        let month = monthMap[monthMatch[0]];
-        let dayMatch = periodWithDaysLeft0.match(/\b\d{1,2}\b/);
-        let day = dayMatch[0];
+
+        const extractedDates = extractDates(period);
 
         return {
             challengeId,
@@ -85,9 +103,8 @@ function transformJson(inputJson) {
             clubName,
             qualifyingActivities,
             period,
-            year,
-            month,
-            day
+            startDate: extractedDates.startDate,
+            endDate: extractedDates.endDate
         };
     });
 }
