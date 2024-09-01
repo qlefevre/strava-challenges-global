@@ -95,7 +95,7 @@
 		
 
 
-		<div class="fs-2 display-6 text-orange my-3">Ongoing challenges <span class="fs-5">({{filteredOngoingChallenges.length}})</span></div>
+		<div class="fs-2 display-6 text-orange my-3">Ongoing challenges <span class="fs-5">({{filteredOngoingChallenges.length}}) - {{displayPeriod(filteredOngoingChallenges)}}</span></div>
 	
 		<div class="text-center">
 			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6">
@@ -117,7 +117,7 @@
 			</div>
 		</div>
 
-		<div class="fs-2 display-6 text-orange my-3">Past challenges <span class="fs-5">({{filteredChallenges.length}})</span></div>
+		<div class="fs-2 display-6 text-orange my-3 mt-5 pt-5">Past challenges <span class="fs-5">({{filteredChallenges.length}}) - {{displayPeriod(filteredChallenges)}}</span></div>
 	
 		<div class="text-center">
 			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6">
@@ -218,6 +218,14 @@
 						return challenges;
 					}
 					return challenges.filter(challenge => challenge.qualifyingActivities.some(qual => this.activeFilters.includes(qual)));
+				},
+				displayPeriod: function(challenges){
+					if(challenges.length <=2){
+						return '';
+					}
+					let dates = [challenges[0],challenges[challenges.length-1]];  
+					dates.sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
+					return  dates[0].period.split('to')[0]+'to'+dates[1].period.split('to')[1];
 				},
 				cssActive: function (activity) {
 					return this.activeFilters.includes(activity) ? ' active' : '';
