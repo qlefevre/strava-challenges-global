@@ -1,6 +1,6 @@
 # Strava Challenges Global
 
-This site lists all open Strava challenges from partners worldwide, except those issued by the official Strava club.
+This site lists all active Strava challenges from global partners, excluding those issued by the official Strava club.
 
 [All Challenges](https://qlefevre.github.io/strava-challenges-global/)  
 [Running challenges](https://qlefevre.github.io/strava-challenges-global/?activities=Run)  
