@@ -118,9 +118,10 @@
 		</div>
 
 		<div class="fs-2 display-6 text-orange my-3 mt-5 pt-5">Past challenges <span class="fs-5">({{filteredChallenges.length}}) - {{displayPeriod(filteredChallenges)}}</span></div>
-	
+		<span class="fs-5 display-6 text-orange  ms-5 me-4">Years</span><span class="fs-5 display-6 text-orange me-4 mt-2 mb-0" v-for="year in years"><a class="text-decoration-none text-orange" :href="'#'+year">{{year}}</a> </span>
 		<div v-for="year in years">
-			<div class="fs-3 display-6 text-orange my-5" :id="year">{{year}}</div> 
+			<div class="d-block" :id="year">&nbsp;</div>
+			<div class="fs-3 display-6 text-orange my-4" >{{year}}</div> 
 			<div class="text-center">
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6">
 					<div class="col" v-for="challenge in filteredChallengesByYear[year]">
