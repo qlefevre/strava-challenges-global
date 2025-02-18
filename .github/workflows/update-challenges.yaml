@@ -7,6 +7,8 @@ on:
     - cron: '0 6 5-28/7 * *' # Scheduled to run at 6:00 AM on the 5rd, 12th, 19th, and 26th of each month.
     - cron: '0 6 1,7,14,21,28 * *' # Scheduled to run at 6:00 AM on the 1st, 7th, 14th, 21st, and 28th of each month.
 
+env:
+  FORCE_COLOR: 3
 
 permissions:
   contents: write
