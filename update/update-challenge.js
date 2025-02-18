@@ -136,14 +136,14 @@ async function findChallengeUrls(lastIds, endId) {
  
     const validJsonObjects = [];
     const challengeIdEnd = lastIds[lastIds.length-1] +Number(endId);
-    console.log(challengeIdEnd);
+    console.log('Search up to challenge ID: '+`${challengeIdEnd}`.cyan);
 
     for (let challengeId = lastIds[0]; challengeId <= challengeIdEnd; challengeId++) {
         if(lastIds.includes(challengeId)){
             continue;
         }
         const url = challengeUrl(challengeId);
-        console.log(url);
+ 
         try {
             const response = await axios.get(url, { 
                 headers:headers 
@@ -156,12 +156,15 @@ async function findChallengeUrls(lastIds, endId) {
 
                 let jsonObject = JSON.parse(decodedString);
 
+                var challengeIdColor = `${challengeId} `.red;
                 if (jsonObject.challengeId
-		    && (!jsonObject.club?.name || (jsonObject.club?.name && !jsonObject.club.name.includes("The Strava Club")))
-		   ) {
+                    && (!jsonObject.club?.name || (jsonObject.club?.name && !jsonObject.club.name.includes("The Strava Club")))
+                ) {
                     validJsonObjects.push(jsonObject);
+                    challengeIdColor = `${challengeId} `.green;
                 }
             }
+            console.log(challengeIdColor+challengeUrl(challengeId))
         } catch (error) {
             console.error(`Error accessing ${url}: ${error}`);
         }
@@ -187,7 +190,6 @@ async function getLastChallengeIds(challengesFile, lastNthIds){
   .catch((error) => {
     console.log(error);
   });
-  console.log(`Last Challenge Ids: ${lastChallengeIds}`);
   return lastChallengeIds;
 }
 
@@ -205,27 +207,24 @@ async function mergeChallenges(inputFile,newChallenges){
 
 async function main() {
     
-    console.log('Test colors'.green)
-
     const args = process.argv.slice(2);
     const inputFile = args[0];
     const outputFile = args[1];
     const lastNthIds = args[2]
     const upToNIds = args[3];
 
+    let th = lastNthIds == 1 ? 'st' : lastNthIds == 2 ? 'nd' : lastNthIds == 3 ? 'rd' : 'th';
+
     console.log('Input file: '+`${inputFile}`.cyan);
     console.log('Output file: '+`${outputFile}`.cyan);
-    console.log(`Search from the last ${lastNthIds} challenge Ids.`);
-    console.log(`Search up to ${upToNIds} Ids from the last known Id.`);
-
-    
+    console.log('Search from the '+`${lastNthIds}${th}`.cyan+' previous challenge ID to the next '+`${upToNIds}`.cyan+' challenge IDs.');
     const lastChallengeIds = await getLastChallengeIds(inputFile,lastNthIds);
-   
+    console.log('Last known challenge ID: '+`${lastChallengeIds}`.cyan);
 
-    console.log('Checking challenges...');
     let validJsonObjects = await findChallengeUrls(lastChallengeIds,upToNIds);
-    if (validJsonObjects.length === 0) {
-        console.log('No valid challenge URLs found.');
+    let newChallengesFound = validJsonObjects.length;
+    if (newChallengesFound === 0) {
+        console.log('No valid challenge URLs found.'.yellow);
     } else {
         
         validJsonObjects = transformJson(validJsonObjects);
@@ -233,9 +232,9 @@ async function main() {
         const prettyJsonChallenges = transformJsonOneObjectPerLine(jsonResults);
 
         await fs.writeFile(outputFile, prettyJsonChallenges);
-        console.log(`JSON data saved to ${outputFile}`);
+        console.log(`${newChallengesFound}`.green+' new challenge URLs found');
+        console.log(`JSON data saved to ${outputFile}`.green);
     }
-	console.log('Challenge update completed');
 }
 
 main();
