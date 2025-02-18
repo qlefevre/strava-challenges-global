@@ -51,7 +51,7 @@ jobs:
 
     - name: Update challenges.json 20 20 - Search from the last 20 challenge IDs and up to 20 starting from the most recent known ID.
       if: github.event_name == 'workflow_dispatch'
-      run: export TERM=xterm-color;node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 20 20
+      run: node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 20 20
 
     - name: Configure Git
       run: |
