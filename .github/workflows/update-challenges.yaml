@@ -34,7 +34,6 @@ jobs:
       run: |
         cd source-repo
         npm install axios fs-extra colors
-        export TERM=xterm-color
 
     - name: Update challenges.json 5 15 - Search from the last 5 challenge IDs and up to 15 starting from the most recent known ID.
       if: github.event.schedule == '0 6 4-28/7 * *'
@@ -50,7 +49,7 @@ jobs:
 
     - name: Update challenges.json 20 20 - Search from the last 20 challenge IDs and up to 20 starting from the most recent known ID.
       if: github.event_name == 'workflow_dispatch'
-      run: node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 20 20
+      run: export TERM=xterm-color;node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 20 20
 
     - name: Configure Git
       run: |
