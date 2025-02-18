@@ -116,19 +116,25 @@ function transformJsonOneObjectPerLine(inputJsonText) {
     return `[\r\n${challengesJson}\r\n]`;
 }
 
-function getParamCurrentDate() {
+
+function challengeUrl(challengeId) {
+
+    // Paramètre date de l'url
     const date = new Date();
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
+    const paramDate = `t=${year}${month}${day}`;
 
-    return `t=${year}${month}${day}`;
+    // Challenge url
+    const url = `https://www.strava.com/challenges/${challengeId}?${paramDate}`;;
+
+    return url;
 }
 
 async function findChallengeUrls(lastIds, endId) {
-    const baseUrl = 'https://www.strava.com/challenges/';
+ 
     const validJsonObjects = [];
-    const paramDate = getParamCurrentDate();
     const challengeIdEnd = lastIds[lastIds.length-1] +Number(endId);
     console.log(challengeIdEnd);
 
@@ -136,7 +142,7 @@ async function findChallengeUrls(lastIds, endId) {
         if(lastIds.includes(challengeId)){
             continue;
         }
-        const url = `${baseUrl}${challengeId}?${paramDate}`;;
+        const url = challengeUrl(challengeId);
         console.log(url);
         try {
             const response = await axios.get(url, { 
