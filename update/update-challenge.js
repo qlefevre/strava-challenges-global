@@ -1,5 +1,6 @@
 const axios = require('axios');
 const fs = require('fs-extra');
+const colors = require('colors');
 
 const monthMap = {
     Jan: '01',
@@ -198,14 +199,16 @@ async function mergeChallenges(inputFile,newChallenges){
 
 async function main() {
     
+    console.log('Test colors'.green)
+
     const args = process.argv.slice(2);
     const inputFile = args[0];
     const outputFile = args[1];
     const lastNthIds = args[2]
     const upToNIds = args[3];
 
-    console.log(`Input file: ${inputFile}`);
-    console.log(`Output file: ${outputFile}`);
+    console.log('Input file: '+`${inputFile}`.cyan);
+    console.log('Output file: '+`${outputFile}`.cyan);
     console.log(`Search from the last ${lastNthIds} challenge Ids.`);
     console.log(`Search up to ${upToNIds} Ids from the last known Id.`);
 
