@@ -33,7 +33,7 @@ jobs:
     - name: Prepare update-challenges.js
       run: |
         cd source-repo
-        npm install axios fs-extra
+        npm install axios fs-extra colors
 
     - name: Update challenges.json 5 15 - Search from the last 5 challenge IDs and up to 15 starting from the most recent known ID.
       if: github.event.schedule == '0 6 4-28/7 * *'
