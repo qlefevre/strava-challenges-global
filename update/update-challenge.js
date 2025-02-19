@@ -140,6 +140,7 @@ async function findChallengeUrls(lastIds, endId) {
 
     for (let challengeId = lastIds[0]; challengeId <= challengeIdEnd; challengeId++) {
         if(lastIds.includes(challengeId)){
+            console.log(`${challengeId}`.cyan+' already known')
             continue;
         }
         const url = challengeUrl(challengeId);
@@ -156,15 +157,21 @@ async function findChallengeUrls(lastIds, endId) {
 
                 let jsonObject = JSON.parse(decodedString);
 
-                var challengeIdColor = `${challengeId} `.red;
-                if (jsonObject.challengeId
-                    && (!jsonObject.club?.name || (jsonObject.club?.name && !jsonObject.club.name.includes("The Strava Club")))
-                ) {
-                    validJsonObjects.push(jsonObject);
-                    challengeIdColor = `${challengeId} `.green;
+                var challengeIdColor = `${challengeId}`.red;
+                // ont un challengeId défini
+                // n'ont pas de club défini OU ont un club dont le nom ne contient pas "The Strava Club"
+                if (jsonObject.challengeId) {
+                    if (!jsonObject.club?.name || (jsonObject.club?.name && !jsonObject.club.name.includes("The Strava Club"))) {
+                        validJsonObjects.push(jsonObject);
+                        challengeIdColor = `${challengeId}`.brightGreen;
+
+                        // C'est un challenge officiel
+                    } else if (jsonObject.club?.name && jsonObject.club.name.includes("The Strava Club")) {
+                        challengeIdColor = `${challengeId}`.brightMagenta;
+                    }
                 }
             }
-            console.log(challengeIdColor+challengeUrl(challengeId))
+            console.log(challengeIdColor+' '+challengeUrl(challengeId))
         } catch (error) {
             console.error(`Error accessing ${url}: ${error}`);
         }
@@ -193,6 +200,7 @@ async function getLastChallengeIds(challengesFile, lastNthIds){
   return lastChallengeIds;
 }
 
+// Fusionne les 2 tableaux contenant des challenges
 async function mergeChallenges(inputFile,newChallenges){
     // Using promise chaining
   const challenges = await fs
