@@ -303,14 +303,15 @@
 					})
 					.then(data => {
 
-
 						// Liste des challenges en cours
 						this.ongoingchallenges= data
+							.filter(a => a.clubId != 231407) // Filtrage Club Strava
 							.filter(a => new Date(a.endDate) >= today)
 							.sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
 
 						// Liste des challenges 
 						this.challenges = data
+							.filter(a => a.clubId != 231407) // Filtrage Club Strava
 							.filter(a => new Date(a.endDate) < today)
 							.sort((a, b) => new Date(b.endDate) - new Date(a.endDate));
 
