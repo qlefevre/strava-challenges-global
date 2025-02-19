@@ -162,13 +162,13 @@ async function findChallengeUrls(lastIds, endId) {
                 // n'ont pas de club défini OU ont un club dont le nom ne contient pas "The Strava Club"
                 if (jsonObject.challengeId) {
                     if (!jsonObject.club?.name || (jsonObject.club?.name && !jsonObject.club.name.includes("The Strava Club"))) {
-                        validJsonObjects.push(jsonObject);
                         challengeIdColor = `${challengeId}`.brightGreen;
-
                         // C'est un challenge officiel
                     } else if (jsonObject.club?.name && jsonObject.club.name.includes("The Strava Club")) {
                         challengeIdColor = `${challengeId}`.brightMagenta;
                     }
+                    validJsonObjects.push(jsonObject);
+                    
                 }
             }
             console.log(challengeIdColor+' '+challengeUrl(challengeId))
