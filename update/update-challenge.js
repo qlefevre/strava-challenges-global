@@ -154,7 +154,7 @@ async function findChallengeUrls(lastIds, endId) {
 
                 let jsonString = text.match(/data-react-props='(.*)'/)[1];
                 let decodedString = jsonString.replace(/&quot;/g, '"').replace(/&#39;/g, "'");
-
+		console.log(decodedString);
                 let jsonObject = JSON.parse(decodedString);
 
                 var challengeIdColor = `${challengeId}`.red;
