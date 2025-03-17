@@ -152,7 +152,7 @@ async function findChallengeUrls(lastIds, endId) {
             if (response.status === 200) {
                 const text = response.data;
 
-                let jsonString = text.match(/data-react-props='(.*)' style'/)[1];
+                let jsonString = text.match(/data-react-props='(.*)' style/)[1];
                 let decodedString = jsonString.replace(/&quot;/g, '"').replace(/&#39;/g, "'");
 		console.log(decodedString);
                 let jsonObject = JSON.parse(decodedString);
