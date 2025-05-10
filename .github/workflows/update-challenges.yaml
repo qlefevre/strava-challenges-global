@@ -37,21 +37,21 @@ jobs:
         cd source-repo
         npm install axios fs-extra colors
 
-    - name: Update challenges.json 5 15 - Search from the last 5 challenge IDs and up to 15 starting from the most recent known ID.
+    - name: Update challenges.json 10 15 - Search from the last 10 challenge IDs and up to 15 starting from the most recent known ID.
       if: github.event.schedule == '0 6 4-28/7 * *'
-      run: node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 5 15
+      run: node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 10 15
 
     - name: Update challenges.json 1 30 - Search from the last 1 challenge IDs and up to 30 starting from the most recent known ID.
       if: github.event.schedule == '0 6 1,7,14,21,28 * *'
       run: node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 1 30
 
-    - name: Update challenges.json 8 5 - Search from the last 8 challenge IDs and up to 5 starting from the most recent known ID.
+    - name: Update challenges.json 15 10 - Search from the last 15 challenge IDs and up to 10 starting from the most recent known ID.
       if: github.event.schedule == '0 6 5-28/7 * *'
-      run: node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 8 5
+      run: node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 15 10
 
-    - name: Update challenges.json 30 30 - Search from the last 30 challenge IDs and up to 30 starting from the most recent known ID.
+    - name: Update challenges.json 40 30 - Search from the last 40 challenge IDs and up to 30 starting from the most recent known ID.
       if: github.event_name == 'workflow_dispatch'
-      run: node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 120 5
+      run: node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 40 30
 
     - name: Configure Git
       run: |
