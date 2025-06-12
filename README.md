@@ -3,7 +3,7 @@
 This site lists all active Strava challenges from global partners, excluding those issued by the official Strava club.
 
 [All Challenges](https://qlefevre.github.io/strava-challenges-global/)  
-[Running challenges](https://qlefevre.github.io/strava-challenges-global/?activities=Run)  
+[Running challenges](https://qlefevre.github.io/strava-challenges-global/?activities=Run&hideSegments)  
 [Cycling challenges](https://qlefevre.github.io/strava-challenges-global/?activities=Ride)  
 [Swimming challenges](https://qlefevre.github.io/strava-challenges-global/?activities=Swim)  
 
