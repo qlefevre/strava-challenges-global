@@ -94,7 +94,7 @@ function transformJson(inputJson) {
 
         const extractedDates = extractDates(period);
 
-	const segment = summary?.segment?.destinationUrl || '';
+	const segment = summary?.segment?.destinationUrl || null;
 
         return {
             challengeId,
