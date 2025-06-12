@@ -88,6 +88,8 @@
 							role="button" v-for="activity in highlightedActivities" v-html="svg(activity)+' '+activity"></a>
 						<a :class="'btn btn-outline-secondary btn-sm me-1 my-1 '+(showMore?'btn secondary active':'')"
 							@click="toggleShowMore" role="button">{{showMore?'&ominus; Show Less':'&oplus; Show More'}}</a>
+						<a :class="'btn btn-outline-secondary btn-sm me-1 my-1 '+(showSegments?'btn secondary active':'')"
+							@click="toggleShowSegments" role="button">{{showSegments?'&ominus; Hide Segments':'&oplus; Show Segments'}}</a>
 					</div>
 					<div :class="'mb-4 '+(showMore?'':'d-none')">
 						<a :class="'btn btn-orange btn-sm me-1 my-1'+cssActive(activity)" @click="toggle(activity)"
@@ -203,6 +205,7 @@
 					activities: ["Rowing","Canoeing","Run","VirtualRun","Crossfit","Elliptical","Workout","WeightTraining","RockClimbing","Wheelchair","Soccer","Golf","Handcycle","Kayaking","Kitesurf","Walk","Swim","IceSkate","Hike","Snowshoe","InlineSkate","StairStepper","Skateboard","AlpineSki","BackcountrySki","NordicSki","RollerSki","Snowboard","StandUpPaddling","Surfing","Sail","Ride","VirtualRide","EBikeRide","Velomobile","Windsurf","Yoga"],
 					highlightedActivities:  ["Run", "Ride", "Swim","Walk", "Hike"],
 					activeFilters: [],
+					showSegments: true,
 					showMore: false,
 				}
 			},
@@ -236,10 +239,13 @@
 			},
 			methods: {
 				filterChallenges: function (challenges) {
-					if (this.activeFilters.length === 0){
+					if (this.activeFilters.length === 0 && this.showSegments){
 						return challenges;
 					}
-					return challenges.filter(challenge => challenge.qualifyingActivities.some(qual => this.activeFilters.includes(qual)));
+					return challenges
+					.filter(challenge => this.activeFilters.length === 0 || challenge.qualifyingActivities.some(qual => this.activeFilters.includes(qual)))
+					.filter(challenge => (this.showSegments || challenge.segment === null ));
+
 				},
 				displayPeriod: function(challenges){
 					if(challenges.length <=2){
@@ -259,6 +265,9 @@
 				toggleShowMore: function () {
 					return this.showMore = !this.showMore;
 				},
+				toggleShowSegments: function () {
+					return this.showSegments = !this.showSegments;
+				},
 				svg: function (activity){
 					switch (activity) {
 						case 'Run':
@@ -277,13 +286,20 @@
 			mounted() {
 
 				const urlParams = new URLSearchParams(window.location.search);
+				
+				// filter by activities > Run / Ride / Swim
 				let activitiesdata = urlParams.get('activities');
-
 				if(activitiesdata){
 					values = activitiesdata.split('-').filter(activity => this.activities.includes(activity));
 					this.activeFilters = values;
 				}
-		
+
+				// filter "segment challenges"
+				let hideSegments = urlParams.has('hideSegments');
+				if(hideSegments){
+					this.showSegments = false;
+				}
+				//console.log('Show segments '+this.showSegments);
 
 				const url = "challenges.json";
 
