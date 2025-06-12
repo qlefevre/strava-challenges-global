@@ -94,6 +94,8 @@ function transformJson(inputJson) {
 
         const extractedDates = extractDates(period);
 
+	const segment = summary?.segment?.destinationUrl || '';
+
         return {
             challengeId,
             coverImageUrl,
@@ -105,7 +107,8 @@ function transformJson(inputJson) {
             qualifyingActivities,
             period,
             startDate: extractedDates.startDate,
-            endDate: extractedDates.endDate
+            endDate: extractedDates.endDate,
+	    segment
         };
     });
 }
