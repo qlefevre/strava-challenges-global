@@ -24,6 +24,7 @@
 		.btn-orange.btn.active {
 			color: white;
 			background-color: orangered;
+			border-color: orangered;
 		}
 
 		.btn-orange {
@@ -78,6 +79,16 @@
 
 	<article id="challenges" class="col-10 mx-auto">
 
+			<div class="row my-5">
+				<div class="text-orange col-4"></div>
+				<div class="col-4 ps-0">
+					<div class="input-group" style="display: inline-flex;">
+  						<input type="text" class="form-control btn btn-sm btn-outline-secondary" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
+						<span class="input-group-text btn btn-sm btn-orange active" id="basic-addon1">🔎︎</span>
+					</div>
+				</div>
+			</div>
+		
 			<div class="row mt-3">
 				<div class="text-orange col-1 col-1-96">Filtered activities: </div>
 				<div class="col-10 ps-0">
@@ -95,16 +106,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row mt-3">
-				<div class="text-orange col-1 col-1-96"></div>
-				<div class="col-10 ps-0">
-					<div class="me-0  input-group" style="display: inline-flex;width: 40%;margin-left: auto;">
-  						<input type="text" class="form-control btn btn-sm btn-outline-secondary" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
-						<span class="input-group-text btn btn-sm btn-outline-secondary active" id="basic-addon1">🔎︎</span>
-					</div>
-				</div>
-			</div>
-
+			
 		<div class="fs-2 display-6 text-orange my-3">Ongoing challenges <span class="fs-5">({{filteredOngoingChallenges.length}}) - {{displayPeriod(filteredOngoingChallenges)}}</span></div>
 	
 		<div class="text-center">
