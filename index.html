@@ -249,14 +249,17 @@
 			},
 			methods: {
 				filterChallenges: function (challenges) {
-					if (this.activeFilters.length === 0 && this.showSegments && this.search === ""){
-						return challenges;
+					let filteredChallenges = challenges;
+					if(this.search !== ""){
+						filteredChallenges = filteredChallenges.filter(challenge => challenge.name.includes(this.search) || challenge.subtitle.includes(this.search)));
 					}
-					return challenges
-					.filter(challenge => (this.search === "" || challenge.name.includes(this.search) || challenge.subtitle.includes(this.search)))
-					.filter(challenge => this.activeFilters.length === 0 || challenge.qualifyingActivities.some(qual => this.activeFilters.includes(qual)))
-					.filter(challenge => (this.showSegments || challenge.segment === null ));
-
+					if (this.activeFilters.length > 0){
+						filteredChallenges = filteredChallenges.filter(challenge => challenge.qualifyingActivities.some(qual => this.activeFilters.includes(qual)));
+					}
+					if(!this.showSegments){
+ 						filteredChallenges = filteredChallenges.filter(challenge => challenge.segment === null));
+					}
+					return filteredChallenges;
 				},
 				displayPeriod: function(challenges){
 					if(challenges.length <=2){
