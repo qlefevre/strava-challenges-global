@@ -251,7 +251,10 @@
 				filterChallenges: function (challenges) {
 					let filteredChallenges = challenges;
 					if(this.search !== ""){
-						filteredChallenges = filteredChallenges.filter(challenge => challenge.name.includes(this.search) || challenge.subtitle.includes(this.search) || challenge.clubName.includes(this.search));
+						const searchLower = this.search.toLowerCase();
+						filteredChallenges = filteredChallenges.filter(challenge => 	challenge.name.toLowerCase().includes(searchLower) ||
+            													challenge.subtitle.toLowerCase().includes(searchLower) ||
+            													challenge.clubName.toLowerCase().includes(searchLower));
 					}
 					if (this.activeFilters.length > 0){
 						filteredChallenges = filteredChallenges.filter(challenge => challenge.qualifyingActivities.some(qual => this.activeFilters.includes(qual)));
