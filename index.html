@@ -252,13 +252,13 @@
 				filterChallenges: function (challenges) {
 					let filteredChallenges = challenges;
 					if(this.search !== ""){
-						filteredChallenges = filteredChallenges.filter(challenge => challenge.name.includes(this.search) || challenge.subtitle.includes(this.search)));
+						filteredChallenges = filteredChallenges.filter(challenge => challenge.name.includes(this.search) || challenge.subtitle.includes(this.search));
 					}
 					if (this.activeFilters.length > 0){
 						filteredChallenges = filteredChallenges.filter(challenge => challenge.qualifyingActivities.some(qual => this.activeFilters.includes(qual)));
 					}
 					if(!this.showSegments){
- 						filteredChallenges = filteredChallenges.filter(challenge => challenge.segment === null));
+ 						filteredChallenges = filteredChallenges.filter(challenge => challenge.segment === null);
 					}
 					return filteredChallenges;
 				},
