@@ -250,7 +250,7 @@
 			},
 			methods: {
 				filterChallenges: function (challenges) {
-					if (this.activeFilters.length === 0 && this.showSegments){
+					if (this.activeFilters.length === 0 && this.showSegments && this.search === ""){
 						return challenges;
 					}
 					return challenges
