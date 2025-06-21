@@ -254,6 +254,7 @@
 						return challenges;
 					}
 					return challenges
+					.filter(challenge => (this.search === "" || challenge.name.contains(this.search) || challenge.subtitle.contains(this.search)))
 					.filter(challenge => this.activeFilters.length === 0 || challenge.qualifyingActivities.some(qual => this.activeFilters.includes(qual)))
 					.filter(challenge => (this.showSegments || challenge.segment === null ));
 
