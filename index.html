@@ -83,8 +83,9 @@
 				<div class="text-orange col-4"></div>
 				<div class="col-4 ps-0">
 					<div class="input-group" style="display: inline-flex;">
-  						<input type="text" class="form-control btn btn-sm btn-outline-secondary" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
+  						<input type="text" v-model="search" class="form-control btn btn-sm btn-outline-secondary" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
 						<span class="input-group-text btn btn-sm btn-orange active" id="basic-addon1">🔎︎</span>
+						{{search}}
 					</div>
 				</div>
 			</div>
@@ -216,6 +217,7 @@
 					activeFilters: [],
 					showSegments: true,
 					showMore: false,
+					search: ""
 				}
 			},
 			computed: {
