@@ -15,7 +15,7 @@ install
    pip install pillow requests
 ```
 
-generate sprites
+generate challenge sprites
 ```bash
   python sprite.py --offset 0 --batch_size 625
   python sprite.py --offset 625 --batch_size 625
