@@ -9,6 +9,10 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
 	<link rel="icon" type="image/png" href="img/wrench-adjustable-circle.png" />
 
+	<link href="css/challenges_0_625.css" rel="stylesheet">
+	<link href="css/challenges_625_1250.css" rel="stylesheet">
+	<link href="css/challenges_1250_1779.css" rel="stylesheet">
+
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@3.4.31/dist/vue.global.min.js"></script>
 	<style>
@@ -143,7 +147,8 @@
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6">
 					<div class="col" v-for="challenge in filteredChallengesByYear[year]" v-show="filteredChallenges.includes(challenge)">
 						<a :href="'https://www.strava.com/challenges/'+challenge.challengeId" target="_blank">
-							<img :src="challenge.challengeLogoUrl" class="img-fluid px-5 pb-3 pt-4" />
+							<img v-if="challenge.challengeId > 5147" :src="challenge.challengeLogoUrl" class="img-fluid px-5 pb-3 pt-4" />
+							<div v-else :class="'d-inline-block img-fluid mx-5 mb-3 mt-4 challenge-'+challenge.challengeId"></div>
 						</a>
 						<a :href="'https://www.strava.com/challenges/'+challenge.challengeId"
 							class="link-dark link-underline link-underline-opacity-10 link-opacity-50-hover"
