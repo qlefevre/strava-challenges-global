@@ -55,6 +55,13 @@
 		.text-justify{
 			text-align: justify;
 		}
+		.challenge{
+    			width: 150px;
+    			height: 150px;
+		}
+		.challenge-img{
+			max-width: 150px;
+		}
 	</style>
 
 
@@ -147,8 +154,8 @@
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6">
 					<div class="col" v-for="challenge in filteredChallengesByYear[year]" v-show="filteredChallenges.includes(challenge)">
 						<a :href="'https://www.strava.com/challenges/'+challenge.challengeId" class="d-block" target="_blank">
-							<img v-if="challenge.challengeId > 5147" :src="challenge.challengeLogoUrl" class="img-fluid px-5 pb-3 pt-4" />
-							<div v-else :class="'d-inline-block img-fluid mx-auto mb-3 mt-4 challenge-'+challenge.challengeId"></div>
+							<img v-if="challenge.challengeId > 5147" :src="challenge.challengeLogoUrl" class="d-inline-block mx-auto mb-3 mt-4 challenge-img" />
+							<div v-else :class="'d-inline-block img-fluid mx-auto mb-3 mt-4 challenge challenge-'+challenge.challengeId"></div>
 						</a>
 						<a :href="'https://www.strava.com/challenges/'+challenge.challengeId"
 							class="link-dark link-underline link-underline-opacity-10 link-opacity-50-hover"
