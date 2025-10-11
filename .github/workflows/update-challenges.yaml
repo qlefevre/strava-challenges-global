@@ -5,7 +5,9 @@ on:
   schedule:
     - cron: '0 6 4-28/7 * *' # Scheduled to run at 6:00 AM on the 4th, 11th, 18th, and 25th of each month.
     - cron: '0 6 5-28/7 * *' # Scheduled to run at 6:00 AM on the 5rd, 12th, 19th, and 26th of each month.
+    - cron: '0 7 9-28/9 * *' # Scheduled to run at 6:00 AM on the 9th, 18th and 27th of each month.
     - cron: '0 6 1,7,14,21,28 * *' # Scheduled to run at 6:00 AM on the 1st, 7th, 14th, 21st, and 28th of each month.
+    
 
 env:
   FORCE_COLOR: 3
@@ -48,6 +50,10 @@ jobs:
     - name: Update challenges.json 15 10 - Search from the last 15 challenge IDs and up to 10 starting from the most recent known ID.
       if: github.event.schedule == '0 6 5-28/7 * *'
       run: node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 15 10
+
+    - name: Update challenges.json 150 1 - Search from the last 150 challenge IDs and up to 1 starting from the most recent known ID.
+      if: github.event.schedule == '0 7 9-28/9 * *'
+      run: node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 150 1
 
     - name: Update challenges.json 40 42 - Search from the last 40 challenge IDs and up to 42 starting from the most recent known ID.
       if: github.event_name == 'workflow_dispatch'
