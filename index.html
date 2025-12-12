@@ -373,8 +373,20 @@
 		}).mount('#app');
 
 	</script>
-
-
+	<script>
+	  // Fonction pour appliquer le thème en fonction des préférences système
+	  function applyTheme() {
+	    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+	      document.documentElement.setAttribute('data-bs-theme', 'dark');
+	    } else {
+	      document.documentElement.setAttribute('data-bs-theme', 'light');
+	    }
+	  }
+	  // Applique le thème au chargement de la page
+	  applyTheme();
+	  // Écoute les changements de préférence de couleur
+	  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+	</script>
 </body>
-
 </html>
+
