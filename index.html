@@ -19,49 +19,55 @@
 		.text-orange, a:hover {
 			color: orangered;
 		}
-
 		.btn {
 			border-radius: 0px;
 		}
-
 		a.btn-orange.btn:hover,
 		.btn-orange.btn.active {
 			color: white;
 			background-color: orangered;
 			border-color: orangered;
 		}
-
 		.btn-orange {
 			color: orangered;
 			border-color: orangered;
 		}
-
 		.btn-search:hover {
     			color: var(--bs-btn-active-bg);
 			background-color: transparent;
 		}
-		
 		.col-1-96{
 			/* width: 9.6%; */
 			width: 160px;
 		}
-
 		footer .logo {
 			width: 5%;
 			margin-right: 10px;
 			filter: opacity(0.6);
 		}
-
 		.text-justify{
 			text-align: justify;
 		}
 		.challenge{
-    			width: 150px;
-    			height: 150px;
+    		width: 150px;
+    		height: 150px;
 		}
 		.challenge-img{
 			max-width: 150px;
 		}
+		[data-bs-theme=dark] .link-dark{
+			color: RGBA(var(--bs-light-rgb), var(--bs-link-opacity, 1)
+				--bs-link-opacity is not defined) !important;
+    		-webkit-text-decoration-color: RGBA(var(--bs-light-rgb),var(--bs-link-underline-opacity,1))!important;
+    			text-decoration-color: RGBA(var(--bs-light-rgb), var(--bs-link-underline-opacity, 1)) !important;
+		}
+		[data-bs-theme=dark] .btn-orange {
+			background-color: #330D00;
+		}
+		[data-bs-theme=dark] .btn-outline-secondary {
+			background-color: #0A0B0C;
+		}
+
 	</style>
 
 
