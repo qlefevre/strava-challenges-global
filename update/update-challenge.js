@@ -19,12 +19,12 @@ const monthMap = {
 
 // Set custom headers to mimic a Chrome browser request
 const headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
     'Accept-Language': 'en;q=0.8,en-US;q=0.5,en;q=0.3',
     'Accept-Encoding': 'gzip, deflate, br, zstd',
     'Connection': 'keep-alive',
-    'Cookie': 'cf_clearance=II.E60N50BHvpFFYtlcrPM_S1eG0Oiaa5obxoIFOMWg-1720528084-1.0.1.1-dCdp8T4qnFgWPDQJ2jupxAOcqLgbRxc14qG1YRvuWjHtPUV3RYms2GUJAjwtdKtL.So7mymyt_WI0dDqmL.kmA',
+    'Cookie': 'sp=af39222e-de43-4953-846a-96b6d2717baa; iterableEndUserId=qlefevre%40gmail.com; globalHeatmapAboutModal=true; _strava_cbv3=true; _strava_cpra=opted_out; CookieConsent={stamp:%27JF1BlMmicaH7oY2UaAIErFsbGcumN9Nk3waAQxcgqrg4VhDrwOmjZg==%27%2Cnecessary:true%2Cpreferences:true%2Cstatistics:true%2Cmarketing:false%2Cmethod:%27explicit%27%2Cver:2%2Cutc:1765222520311%2Cregion:%27fr%27}; fbm_284597785309=base_domain=.www.strava.com; _sp_ses.047d=*; _currentH=d3d3LnN0cmF2YS5jb20=; _strava4_session=6egmdfi9q46aouf853t0fjeog25i7k7; g_state={"i_l":0,"i_ll":1770544408841,"i_b":"26qUf7d4OILRVEPY52sQtXmiK9NIxtFP33REgqLrXLs","i_e":{"enable_itp_optimization":0}}; _ga_12345=GS2.1.s1770547012$o1$g0$t1770547012$j60$l0$h495009092; _tt_enable_cookie=1; _ttp=01KGYD6S52WE11PV57QET6C19X_.tt.1; ttcsid=1770547012775::YKqFhbyXzuAnQDX-s2XA.1.1770547022783.0; ttcsid_CRCAPDJC77UE5B95LUQG=1770547012774::_VicJa4WJCuZ9u5ivGv4.1.1770547022787.1; _sp_id.047d=d6034b99-1c1c-4309-bad9-c8a606568edb.1752955704.96.1770547583.1769613947.a10e4d9d-018e-4fae-91f5-b942663e6c3a',
 };
 
 // Fonction pour extraire les dates (comme défini précédemment)
@@ -155,10 +155,22 @@ async function findChallengeUrls(lastIds, endId) {
             if (response.status === 200) {
                 const text = response.data;
 
-                let jsonString = text.match(/data-react-props='(.*)' style/)[1];
-                let decodedString = jsonString.replace(/&quot;/g, '"').replace(/&#39;/g, "'");
-		//console.log(decodedString);
-                let jsonObject = JSON.parse(decodedString);
+                let jsonString = text.match(/data-react-props='(.*?(?=' style))'/)[1];
+                let decodedString = jsonString
+                    .replace(/&quot;/g, '"')
+                    .replace(/&#39;/g, "'")
+                    .replace(/&lt;/g, "<")
+                    .replace(/&gt;/g, ">")
+                    .replace(/&amp;/g, "&");
+          
+                let jsonObject;
+                try {
+                    //console.log(decodedString);
+                    jsonObject = JSON.parse(decodedString);
+                } catch (e) {
+                    console.error("Erreur de parsing JSON :", e);
+                    return; // ou gérer l'erreur autrement
+                }
 
                 var challengeIdColor = `${challengeId}`.red;
                 // ont un challengeId défini
