@@ -186,7 +186,7 @@
 			<div class="col-md-7 d-flex align-items-center ps-5">
 				<i class="bi bi-strava fs-1 me-2"></i>
 				<p class="mb-3 mb-md-0  text-orange w-100">
-					2025 <a class="text-decoration-none text-orange"
+					2026 <a class="text-decoration-none text-orange"
 						href="https://qlefevre.github.io/strava-challenges-global/">Strava Challenges Global</a>.
 				</p>
 				
@@ -362,12 +362,14 @@
 						// Liste des challenges en cours
 						this.ongoingchallenges= data
 							.filter(a => a.clubId != 231407) // Filtrage Club Strava
+							.filter(a => a.clubId != 886292) // Filtrage Team Runna
 							.filter(a => new Date(a.endDate) >= today)
 							.sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
 
 						// Liste des challenges 
 						this.challenges = data
 							.filter(a => a.clubId != 231407) // Filtrage Club Strava
+							.filter(a => a.clubId != 886292) // Filtrage Team Runna
 							.filter(a => new Date(a.endDate) < today)
 							.sort((a, b) => new Date(b.endDate) - new Date(a.endDate));
 

@@ -176,10 +176,12 @@ async function findChallengeUrls(lastIds, endId) {
                 // ont un challengeId défini
                 // n'ont pas de club défini OU ont un club dont le nom ne contient pas "The Strava Club"
                 if (jsonObject.challengeId) {
-                    if (!jsonObject.club?.name || (jsonObject.club?.name && !jsonObject.club.name.includes("The Strava Club"))) {
+                    if (!jsonObject.club?.name || 
+                        (jsonObject.club?.name && !jsonObject.club.name.includes("The Strava Club") && !jsonObject.club.name.includes("Team Runna"))
+                    ) {
                         challengeIdColor = `${challengeId}`.brightGreen;
                         // C'est un challenge officiel
-                    } else if (jsonObject.club?.name && jsonObject.club.name.includes("The Strava Club")) {
+                    } else if (jsonObject.club?.name && (jsonObject.club.name.includes("The Strava Club") || jsonObject.club.name.includes("Team Runna"))) {
                         challengeIdColor = `${challengeId}`.brightMagenta;
                     }
                     validJsonObjects.push(jsonObject);
