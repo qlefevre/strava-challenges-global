@@ -276,7 +276,7 @@
 			methods: {
 				/**
 				 * Détermine la classe CSS du sprite pour un challenge
-				 * Retourne la classe sprite-xxx et sprite-hidden si besoin
+				 * Mappe le challengeId vers le bon sprite CSS
 				 */
 				getSpriteClass: function(challenge) {
 					if (challenge.challengeId > 5147) {
@@ -284,11 +284,12 @@
 						return '';
 					}
 
-					// Déterminer quel sprite est nécessaire
+					// Mapper par challenge ID pour déterminer quel sprite utiliser
 					let spriteName = 'challenges_0_625';
-					if (challenge.challengeId >= 625 && challenge.challengeId < 1250) {
+					if (challenge.challengeId >= 2917) {
 						spriteName = 'challenges_625_1250';
-					} else if (challenge.challengeId >= 1250) {
+					}
+					if (challenge.challengeId >= 4248) {
 						spriteName = 'challenges_1250_1779';
 					}
 
