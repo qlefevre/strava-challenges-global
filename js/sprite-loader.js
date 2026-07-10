@@ -25,36 +25,6 @@ class SpriteLoader {
 				loaded: false
 			}
 		];
-		this.loadedCallbacks = [];
-	}
-
-	/**
-	 * Détermine quel sprite est nécessaire pour un challenge ID
-	 * @param {number} challengeId - L'ID du challenge
-	 * @returns {object|null} - L'objet sprite ou null
-	 */
-	getSpriteForChallenge(challengeId) {
-		return this.sprites.find(sprite => 
-			challengeId >= sprite.range[0] && challengeId < sprite.range[1]
-		);
-	}
-
-	/**
-	 * Vérifie si le sprite pour un challenge est chargé
-	 * @param {number} challengeId - L'ID du challenge
-	 * @returns {boolean} - true si le sprite est chargé
-	 */
-	isSpriteLodedForChallenge(challengeId) {
-		const sprite = this.getSpriteForChallenge(challengeId);
-		return sprite ? sprite.loaded : false;
-	}
-
-	/**
-	 * Enregistre une fonction de rappel quand un sprite est chargé
-	 * @param {function} callback - Fonction appelée avec le sprite chargé
-	 */
-	onSpriteLoaded(callback) {
-		this.loadedCallbacks.push(callback);
 	}
 
 	/**
@@ -87,9 +57,10 @@ class SpriteLoader {
 			sprite.loaded = true;
 			console.log(`✓ Sprite chargé: ${sprite.name}`);
 			
-			// Appeler tous les callbacks enregistrés
-			this.loadedCallbacks.forEach(callback => {
-				callback(sprite);
+			// Retirer la classe display-none de tous les éléments concernés
+			const elements = document.querySelectorAll(`.sprite-${sprite.name}`);
+			elements.forEach(el => {
+				el.classList.remove('sprite-hidden');
 			});
 		};
 
@@ -98,26 +69,6 @@ class SpriteLoader {
 		};
 
 		document.head.appendChild(link);
-	}
-
-	/**
-	 * Charge un sprite spécifique (par nom ou par ID de challenge)
-	 * @param {string|number} identifier - Le nom du sprite ou l'ID du challenge
-	 */
-	loadSpriteById(identifier) {
-		let sprite;
-
-		// Si c'est un nombre (challengeId)
-		if (typeof identifier === 'number') {
-			sprite = this.getSpriteForChallenge(identifier);
-		} else {
-			// Sinon, chercher par nom
-			sprite = this.sprites.find(s => s.name === identifier);
-		}
-
-		if (sprite) {
-			this.loadSprite(sprite);
-		}
 	}
 
 	/**
