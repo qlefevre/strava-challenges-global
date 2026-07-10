@@ -55,6 +55,10 @@
 		.challenge-img{
 			max-width: 150px;
 		}
+		/* Masquer les challenges en attente du chargement de leur sprite */
+		.sprite-hidden {
+			display: none !important;
+		}
 		[data-bs-theme=dark] .link-dark{
 			color: RGBA(var(--bs-light-rgb), var(--bs-link-opacity, 1)
 				--bs-link-opacity is not defined) !important;
@@ -158,7 +162,9 @@
 			<div class="fs-3 display-6 text-orange my-4" >{{year}}</div> 
 			<div class="text-center">
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6">
-					<div class="col" v-for="challenge in filteredChallengesByYear[year]" v-show="filteredChallenges.includes(challenge) && canDisplayChallenge(challenge)">
+					<div class="col" v-for="challenge in filteredChallengesByYear[year]" 
+						v-show="filteredChallenges.includes(challenge)"
+						:class="getSpriteClass(challenge)">
 						<a :href="'https://www.strava.com/challenges/'+challenge.challengeId" class="d-block" target="_blank">
 							<img v-if="challenge.challengeId > 5147" :src="challenge.challengeLogoUrl" class="d-inline-block mx-auto mb-3 mt-4 challenge-img" />
 							<div v-else :class="'d-inline-block img-fluid mx-auto mb-3 mt-4 challenge challenge-'+challenge.challengeId"></div>
@@ -236,8 +242,7 @@
 					activeFilters: [],
 					showSegments: true,
 					showMore: false,
-					search: "",
-					spritesLoadedStatus: {} // Track état de chargement des sprites
+					search: ""
 				}
 			},
 			computed: {
@@ -269,6 +274,27 @@
 				}
 			},
 			methods: {
+				/**
+				 * Détermine la classe CSS du sprite pour un challenge
+				 * Retourne la classe sprite-xxx et sprite-hidden si besoin
+				 */
+				getSpriteClass: function(challenge) {
+					if (challenge.challengeId > 5147) {
+						// Les challenges > 5147 utilisent des images directes, pas de sprite
+						return '';
+					}
+
+					// Déterminer quel sprite est nécessaire
+					let spriteName = 'challenges_0_625';
+					if (challenge.challengeId >= 625 && challenge.challengeId < 1250) {
+						spriteName = 'challenges_625_1250';
+					} else if (challenge.challengeId >= 1250) {
+						spriteName = 'challenges_1250_1779';
+					}
+
+					// Retourner la classe avec sprite-hidden par défaut
+					return `sprite-${spriteName} sprite-hidden`;
+				},
 				filterChallenges: function (challenges) {
 					let filteredChallenges = challenges;
 					if(this.search !== ""){
@@ -305,17 +331,6 @@
 				},
 				toggleShowSegments: function () {
 					return this.showSegments = !this.showSegments;
-				},
-				/**
-				 * Vérifie si un challenge peut être affiché (sprite chargé si besoin)
-				 */
-				canDisplayChallenge: function(challenge) {
-					// Les challenges avec challengeId > 5147 utilisent des images directes
-					if (challenge.challengeId > 5147) {
-						return true;
-					}
-					// Pour les autres, vérifier que le sprite est chargé
-					return window.spriteLoader.isSpriteLodedForChallenge(challenge.challengeId);
 				},
 				svg: function (activity){
 					switch (activity) {
@@ -358,16 +373,6 @@
 				today.setSeconds(0);
 				today.setMilliseconds(0);
 
-				// Enregistrer le callback pour mettre à jour Vue quand les sprites sont chargés
-				window.spriteLoader.onSpriteLoaded((sprite) => {
-					this.spritesLoadedStatus[sprite.name] = true;
-					// Force Vue à re-render
-					this.$forceUpdate();
-				});
-
-				// Lancer le chargement progressif des sprites
-				window.spriteLoader.loadSpritesProgressively();
-
 				fetch(url)
 					.then(response => {
 						if (!response.ok) {
@@ -395,6 +400,9 @@
 					.catch(error => {
 						console.error('Il y a eu un problème avec votre requête fetch:', error);
 					});
+
+				// Lancer le chargement progressif des sprites
+				window.spriteLoader.loadSpritesProgressively();
 			}
 		}).mount('#app');
 
