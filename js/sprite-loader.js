@@ -5,26 +5,19 @@
 
 class SpriteLoader {
 	constructor() {
-		this.sprites = [
-			{
-				name: 'challenges_0_625',
-				url: 'css/challenges_0_625.css',
-				range: [0, 625],
+		this.sprites = [];
+		// on a maintenant une grille couvrant
+		// les batches de 0 à 2400 avec un pas de 100, chargée de 2400 vers 0.
+		// Exemple de génération : challenges_2400_2500.css, ..., challenges_0_100.css
+		for (let start = 2400; start >= 0; start -= 100) {
+			const end = start + 100;
+			this.sprites.push({
+				name: `challenges_${start}_${end}`,
+				url: `css/challenges_${start}_${end}.css`,
+				range: [start, end],
 				loaded: false
-			},
-			{
-				name: 'challenges_625_1250',
-				url: 'css/challenges_625_1250.css',
-				range: [625, 1250],
-				loaded: false
-			},
-			{
-				name: 'challenges_1250_1779',
-				url: 'css/challenges_1250_1779.css',
-				range: [1250, 1779],
-				loaded: false
-			}
-		];
+			});
+		}
 	}
 
 	/**
@@ -37,7 +30,7 @@ class SpriteLoader {
 			// Ajouter un délai progressif pour éviter de surcharger le réseau
 			setTimeout(() => {
 				this.loadSprite(sprite);
-			}, index * 100);
+			}, index * 300);
 		});
 	}
 
@@ -69,26 +62,6 @@ class SpriteLoader {
 		};
 
 		document.head.appendChild(link);
-	}
-
-	/**
-	 * Retourne l'état de chargement de tous les sprites
-	 * @returns {object} - Objet avec les états de chargement
-	 */
-	getStatus() {
-		return this.sprites.map(sprite => ({
-			name: sprite.name,
-			loaded: sprite.loaded,
-			range: sprite.range
-		}));
-	}
-
-	/**
-	 * Retourne true si tous les sprites sont chargés
-	 * @returns {boolean}
-	 */
-	areAllSpritesLoaded() {
-		return this.sprites.every(sprite => sprite.loaded);
 	}
 }
 

@@ -162,9 +162,9 @@
 			<div class="fs-3 display-6 text-orange my-4" >{{year}}</div> 
 			<div class="text-center">
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6">
-					<div class="col" v-for="challenge in filteredChallengesByYear[year]" 
+					<div class="col" v-for="(challenge,idx) in filteredChallengesByYear[year]" 
 						v-show="filteredChallenges.includes(challenge)"
-						:class="getSpriteClass(challenge)">
+						:class="getSpriteClass(challenge,idx)">
 						<a :href="'https://www.strava.com/challenges/'+challenge.challengeId" class="d-block" target="_blank">
 							<img v-if="challenge.challengeId > 5147" :src="challenge.challengeLogoUrl" class="d-inline-block mx-auto mb-3 mt-4 challenge-img" />
 							<div v-else :class="'d-inline-block img-fluid mx-auto mb-3 mt-4 challenge challenge-'+challenge.challengeId"></div>
@@ -195,9 +195,6 @@
 					2026 <a class="text-decoration-none text-orange"
 						href="https://qlefevre.github.io/strava-challenges-global/">Strava Challenges Global</a>.
 				</p>
-				
-	
-	
 			</div>
 	
 			<ul class="nav col-md-5 justify-content-end pe-5">
@@ -278,20 +275,19 @@
 				 * Détermine la classe CSS du sprite pour un challenge
 				 * Mappe le challengeId vers le bon sprite CSS
 				 */
-				getSpriteClass: function(challenge) {
-					if (challenge.challengeId > 5147) {
-						// Les challenges > 5147 utilisent des images directes, pas de sprite
+				getSpriteClass: function(challenge,idx) {
+					if (challenge.challengeId > 6025) {
+						// Les challenges > 6025 utilisent des images directes, pas de sprite
 						return '';
 					}
 
-					// Mapper par challenge ID pour déterminer quel sprite utiliser
-					let spriteName = 'challenges_0_625';
-					if (challenge.challengeId >= 2917) {
-						spriteName = 'challenges_625_1250';
-					}
-					if (challenge.challengeId >= 4248) {
-						spriteName = 'challenges_1250_1779';
-					}
+					// On a l'id challengeId 6025 pour le sprite 2300-2400
+					// regle de 3
+					const vEstIdx = challenge.challengeId * 2400/6025; 
+					// Mapper chaque challengeId sur le lot CSS correspondant,
+					// généré par tranches de 100 ids (ex. 1400 -> challenges_1400_1500).
+					const batchStart = Math.floor(vEstIdx / 100) * 100;
+					const spriteName = `challenges_${batchStart}_${batchStart + 100}`;
 
 					// Retourner la classe avec sprite-hidden par défaut
 					return `sprite-${spriteName} sprite-hidden`;

@@ -1,3 +1,4 @@
 package-lock.json
 node_modules/
 package.json
+update/images/*.png
