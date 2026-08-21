@@ -16,4 +16,8 @@ Dans les derniers cas, ce n'était pas le script en cause, mais les http request
 - User-Agent
 - Accept
 - Cookie
- 
+
+# Si les challenges NYRR n'apparaissent plus
+
+Le challenge NYRR "Virtual New Balance 5th Avenue Mile" apparait en septembre 2026 avec un id 5527, quand les ids actuellement attribués sont dans les 6300 
+refaire un full scan de update challenge 500 challenges en arrière
