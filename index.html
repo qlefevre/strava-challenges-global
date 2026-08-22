@@ -296,9 +296,11 @@
 					let filteredChallenges = challenges;
 					if(this.search !== ""){
 						const searchLower = this.search.toLowerCase();
-						filteredChallenges = filteredChallenges.filter(challenge => 	challenge.name.toLowerCase().includes(searchLower) ||
-            													challenge.subtitle.toLowerCase().includes(searchLower) ||
-            													challenge.clubName.toLowerCase().includes(searchLower));
+						filteredChallenges = filteredChallenges.filter(
+						challenge => challenge.name.toLowerCase().includes(searchLower) ||
+            						challenge.subtitle.toLowerCase().includes(searchLower) ||
+            						challenge.clubName.toLowerCase().includes(searchLower) ||
+      								getInitials(challenge.clubName).includes(searchLower));
 					}
 					if (this.activeFilters.length > 0){
 						filteredChallenges = filteredChallenges.filter(challenge => challenge.qualifyingActivities.some(qual => this.activeFilters.includes(qual)));
@@ -405,6 +407,14 @@
 
 	</script>
 	<script>
+		// Fonction pour obtenir les initiales d'un nom de club
+		function getInitials(clubName) {
+			return clubName
+			.split(' ') // Séparer en mots
+			.filter(word => word.length > 0) // Ignorer les espaces vides
+			.map(word => word[0].toLowerCase()) // Prendre la première lettre et la mettre en minuscule
+			.join(''); // Concaténer sans espace
+		}
 	  // Fonction pour appliquer le thème en fonction des préférences système
 	  function applyTheme() {
 	    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
