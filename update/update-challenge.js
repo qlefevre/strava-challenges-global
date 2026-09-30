@@ -204,17 +204,9 @@ async function findChallengeUrls(lastIds, endId) {
  * @param {*} lastNthIds last nth challenge ids
  * @returns an array containing last nth challenge ids
  */
-async function getLastChallengeIds(challengesFile, lastNthIds){
-    // Using promise chaining
-  const lastChallengeIds = await fs
-  .readJson(challengesFile)
-  .then((challenges) => {
+async function getLastChallengeIds(challengesFile, lastNthIds) {
+    const challenges = await fs.readJson(challengesFile);
     return challenges.slice(-lastNthIds).map(n => n.challengeId);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-  return lastChallengeIds;
 }
 
 // Fusionne les 2 tableaux contenant des challenges
