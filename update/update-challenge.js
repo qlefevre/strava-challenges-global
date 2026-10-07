@@ -138,6 +138,7 @@ function challengeUrl(challengeId) {
 async function findChallengeUrls(lastIds, endId) {
  
     const validJsonObjects = [];
+    //lastIds[0] = 5527;
     const challengeIdEnd = lastIds[lastIds.length-1] +Number(endId);
     console.log('Search up to challenge ID: '+`${challengeIdEnd}`.cyan);
 
