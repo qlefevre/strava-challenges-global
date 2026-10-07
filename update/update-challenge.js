@@ -155,14 +155,18 @@ async function findChallengeUrls(lastIds, endId) {
             if (response.status === 200) {
                 const text = response.data;
 
-                let jsonString = text.match(/data-react-props='(.*?(?=' style))'/)[1];
-                let decodedString = jsonString
+                let jsonStringMatch = text.match(/data-react-props='(\{[^']*?&quot;challengeId&quot;.*?(?=' style))'/);
+                if (!jsonStringMatch) {
+                    console.log(`${challengeId}`.yellow+' no challenge found')
+                    continue;
+                }
+                let decodedString = jsonStringMatch[1]
                     .replace(/&quot;/g, '"')
                     .replace(/&#39;/g, "'")
                     .replace(/&lt;/g, "<")
                     .replace(/&gt;/g, ">")
                     .replace(/&amp;/g, "&");
-          
+
                 let jsonObject;
                 try {
                     //console.log(decodedString);
