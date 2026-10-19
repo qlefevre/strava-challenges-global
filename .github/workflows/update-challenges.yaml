@@ -55,9 +55,9 @@ jobs:
       if: github.event.schedule == '0 7 9-28/9 * *'
       run: node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 150 1
 
-    - name: Update challenges.json 100 50 - Search from the last 100 challenge IDs and up to 50 starting from the most recent known ID.
+    - name: Update challenges.json 60 100 - Search from the last 100 challenge IDs and up to 60 starting from the most recent known ID.
       if: github.event_name == 'workflow_dispatch'
-      run: node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 25 100
+      run: node ./source-repo/update/update-challenge.js ./source-repo/challenges.json ./target-repo/challenges.json 60 100
 
     - name: Configure Git
       run: |
